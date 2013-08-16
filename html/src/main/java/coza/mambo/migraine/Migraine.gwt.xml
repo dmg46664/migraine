@@ -1,0 +1,11 @@
+<module rename-to='migraine'>
+  <inherits name='playn.PlayN'/>
+  <inherits name='MigraineAssets'/>
+
+  <source path='core'/>
+  <source path='html'/>
+
+  <public path="resources" />
+
+  <entry-point class='coza.mambo.migraine.html.MigraineHtml'/>
+</module>
