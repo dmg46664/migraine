@@ -1,4 +1,4 @@
-package swing;
+package coza.mambo.migraine.swing;
 /*
  * License (BSD):
  * ==============
@@ -33,7 +33,7 @@ package swing;
  *         Date: 2006-sep-08
  */
 
-import net.miginfocom.layout.*;
+import coza.mambo.migraine.layout.*;
 
 import javax.swing.*;
 import javax.swing.Timer;

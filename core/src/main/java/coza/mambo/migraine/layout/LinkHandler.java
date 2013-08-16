@@ -1,4 +1,4 @@
-package layout;
+package coza.mambo.migraine.layout;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package layout;
+package coza.mambo.migraine.layout;
 
 import javax.swing.*;
 import java.awt.*;

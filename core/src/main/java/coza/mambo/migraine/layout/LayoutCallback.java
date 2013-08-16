@@ -1,4 +1,4 @@
-package layout;
+package coza.mambo.migraine.layout;
 
 /*
  * License (BSD):
@@ -47,7 +47,6 @@ public abstract class LayoutCallback
 	 * @return The [x, y, x2, y2] as explained in the documentation for "pos". If <code>null</code>
 	 * is returned nothing is done and this is the default.
 	 * @see UnitValue
-	 * @see net.miginfocom.layout.ConstraintParser#parseUnitValue(String, boolean)
 	 */
 	public UnitValue[] getPosition(ComponentWrapper comp)
 	{
@@ -59,8 +58,7 @@ public abstract class LayoutCallback
 	 * <b>Should not be altered.</b>
 	 * @return The [width, height] as explained in the documentation for "width" and "height". If <code>null</code>
 	 * is returned nothing is done and this is the default.
-	 * @see net.miginfocom.layout.BoundSize
-	 * @see net.miginfocom.layout.ConstraintParser#parseBoundSize(String, boolean, boolean)
+	 * @see BoundSize
 	 */
 	public BoundSize[] getSize(ComponentWrapper comp)
 	{

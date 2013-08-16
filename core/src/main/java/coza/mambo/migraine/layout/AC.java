@@ -1,4 +1,4 @@
-package layout;
+package coza.mambo.migraine.layout;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -39,7 +39,7 @@ import java.util.ArrayList;
 
 /** A constraint that holds the column <b>or</b> row constraints for the grid. It also holds the gaps between the rows and columns.
  * <p>
- * This class is a holder and builder for a number of {@link net.miginfocom.layout.DimConstraint}s.
+ * This class is a holder and builder for a number of {@link DimConstraint}s.
  * <p>
  * For a more thorough explanation of what these constraints do, and how to build the constraints, see the White Paper or Cheat Sheet at www.migcomponents.com.
  * <p>
@@ -53,18 +53,18 @@ public final class AC implements Externalizable
 	private transient int curIx = 0;
 
 	/** Constructor. Creates an instance that can be configured manually. Will be initialized with a default
-	 * {@link net.miginfocom.layout.DimConstraint}.
+	 * {@link DimConstraint}.
 	 */
 	public AC()
 	{
 		cList.add(new DimConstraint());
 	}
 
-	/** Property. The different {@link net.miginfocom.layout.DimConstraint}s that this object consists of.
+	/** Property. The different {@link DimConstraint}s that this object consists of.
 	 * These <code><DimConstraints/code> contains all information in this class.
 	 * <p>
 	 * Yes, we are embarrassingly aware that the method is misspelled.
-	 * @return The different {@link net.miginfocom.layout.DimConstraint}s that this object consists of. A new list and
+	 * @return The different {@link DimConstraint}s that this object consists of. A new list and
 	 * never <code>null</code>.
 	 */
 	public final DimConstraint[] getConstaints()
@@ -72,10 +72,10 @@ public final class AC implements Externalizable
 		return cList.toArray(new DimConstraint[cList.size()]);
 	}
 
-	/** Sets the different {@link net.miginfocom.layout.DimConstraint}s that this object should consists of.
+	/** Sets the different {@link DimConstraint}s that this object should consists of.
 	 * <p>
 	 * Yes, we are embarrassingly aware that the method is misspelled.
-	 * @param constr The different {@link net.miginfocom.layout.DimConstraint}s that this object consists of. The list
+	 * @param constr The different {@link DimConstraint}s that this object consists of. The list
 	 * will be copied for storage. <code>null</code> or and emty array will reset the constraints to one <code>DimConstraint</code>
 	 * with default values.
 	 */
@@ -140,7 +140,7 @@ public final class AC implements Externalizable
 	/** Sets the current row/column to <code>i</code>. If the current number of rows/columns is less than <code>i</code> a call
 	 * to {@link #count(int)} will set the size accordingly.
 	 * <p>
-	 * The next call to any of the constraint methods (e.g. {@link net.miginfocom.layout.AC#noGrid}) will be carried
+	 * The next call to any of the constraint methods (e.g. {@link AC#noGrid}) will be carried
 	 * out on this new row/column.
 	 * <p>
 	 * For a more thorough explanation of what this constraint does see the white paper or cheat Sheet at www.migcomponents.com.

@@ -1,4 +1,4 @@
-package swing;
+package coza.mambo.migraine.swing;
 /*
  * License (BSD):
  * ==============
@@ -33,8 +33,10 @@ package swing;
  *         Date: 2006-sep-08
  */
 
-import net.miginfocom.layout.ComponentWrapper;
-import net.miginfocom.layout.ContainerWrapper;
+
+
+import coza.mambo.migraine.layout.ComponentWrapper;
+import coza.mambo.migraine.layout.ContainerWrapper;
 
 import java.awt.*;
 

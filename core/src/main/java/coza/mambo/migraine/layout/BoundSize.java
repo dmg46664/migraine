@@ -1,4 +1,4 @@
-package layout;
+package coza.mambo.migraine.layout;
 
 import java.beans.Encoder;
 import java.beans.Expression;

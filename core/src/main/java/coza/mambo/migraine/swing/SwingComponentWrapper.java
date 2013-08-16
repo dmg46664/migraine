@@ -1,4 +1,4 @@
-package swing;
+package coza.mambo.migraine.swing;
 /*
  * License (BSD):
  * ==============
@@ -33,9 +33,9 @@ package swing;
  *         Date: 2006-sep-08
  */
 
-import net.miginfocom.layout.ComponentWrapper;
-import net.miginfocom.layout.ContainerWrapper;
-import net.miginfocom.layout.PlatformDefaults;
+import coza.mambo.migraine.layout.ComponentWrapper;
+import coza.mambo.migraine.layout.ContainerWrapper;
+import coza.mambo.migraine.layout.PlatformDefaults;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -60,7 +60,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	 * to specify the visual padding.
 	 * <p>
 	 */
-	private static final String VISUAL_PADDING_PROPERTY = net.miginfocom.layout.PlatformDefaults.VISUAL_PADDING_PROPERTY;
+	private static final String VISUAL_PADDING_PROPERTY = coza.mambo.migraine.layout.PlatformDefaults.VISUAL_PADDING_PROPERTY;
 
 	private final Component c;
 	private int compType = TYPE_UNSET;
