@@ -144,9 +144,9 @@ public final class MigLayout implements LayoutManager2, Externalizable
 		setRowConstraints(rowConstraints);
 	}
 
-	/** Returns layout constraints either as a <code>String</code> or {@link net.miginfocom.layout.LC} depending what was sent in
+	/** Returns layout constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.LC} depending what was sent in
 	 * to the constructor or set with {@link #setLayoutConstraints(Object)}.
-	 * @return The layout constraints either as a <code>String</code> or {@link net.miginfocom.layout.LC} depending what was sent in
+	 * @return The layout constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.LC} depending what was sent in
 	 * to the constructor or set with {@link #setLayoutConstraints(Object)}. Never <code>null</code>.
 	 */
 	public Object getLayoutConstraints()
@@ -157,7 +157,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	/** Sets the layout constraints for the layout manager instance as a String.
 	 * <p>
 	 * See the class JavaDocs for information on how this string is formatted.
-	 * @param constr The layout constraints as a String pr {@link net.miginfocom.layout.LC} representation. <code>null</code> is converted to <code>""</code> for storage.
+	 * @param constr The layout constraints as a String pr {@link coza.mambo.migraine.layout.LC} representation. <code>null</code> is converted to <code>""</code> for storage.
 	 * @throws RuntimeException if the constraint was not valid.
 	 */
 	public void setLayoutConstraints(Object constr)
@@ -174,8 +174,8 @@ public final class MigLayout implements LayoutManager2, Externalizable
 		dirty = true;
 	}
 
-	/** Returns the column layout constraints either as a <code>String</code> or {@link net.miginfocom.layout.AC}.
-	 * @return The column constraints either as a <code>String</code> or {@link net.miginfocom.layout.AC} depending what was sent in
+	/** Returns the column layout constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.AC}.
+	 * @return The column constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.AC} depending what was sent in
 	 * to the constructor or set with {@link #setColumnConstraints(Object)}. Never <code>null</code>.
 	 */
 	public Object getColumnConstraints()
@@ -186,7 +186,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	/** Sets the column layout constraints for the layout manager instance as a String.
 	 * <p>
 	 * See the class JavaDocs for information on how this string is formatted.
-	 * @param constr The column layout constraints as a String or {@link net.miginfocom.layout.AC} representation. <code>null</code> is converted to <code>""</code> for storage.
+	 * @param constr The column layout constraints as a String or {@link coza.mambo.migraine.layout.AC} representation. <code>null</code> is converted to <code>""</code> for storage.
 	 * @throws RuntimeException if the constraint was not valid.
 	 */
 	public void setColumnConstraints(Object constr)
@@ -203,8 +203,8 @@ public final class MigLayout implements LayoutManager2, Externalizable
 		dirty = true;
 	}
 
-	/** Returns the row layout constraints either as a <code>String</code> or {@link net.miginfocom.layout.AC}.
-	 * @return The row constraints either as a <code>String</code> or {@link net.miginfocom.layout.AC} depending what was sent in
+	/** Returns the row layout constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.AC}.
+	 * @return The row constraints either as a <code>String</code> or {@link coza.mambo.migraine.layout.AC} depending what was sent in
 	 * to the constructor or set with {@link #setRowConstraints(Object)}. Never <code>null</code>.
 	 */
 	public Object getRowConstraints()
@@ -215,7 +215,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	/** Sets the row layout constraints for the layout manager instance as a String.
 	 * <p>
 	 * See the class JavaDocs for information on how this string is formatted.
-	 * @param constr The row layout constraints as a String or {@link net.miginfocom.layout.AC} representation. <code>null</code> is converted to <code>""</code> for storage.
+	 * @param constr The row layout constraints as a String or {@link coza.mambo.migraine.layout.AC} representation. <code>null</code> is converted to <code>""</code> for storage.
 	 * @throws RuntimeException if the constraint was not valid.
 	 */
 	public void setRowConstraints(Object constr)
@@ -257,7 +257,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	 * See the class JavaDocs for information on how this string is formatted.
 	 * @param comp The component to return the constraints for.
 	 * @return The component constraints as a String representation or <code>null</code> if the component is not registered
-	 * with this layout manager. The returned values is either a String or a {@link net.miginfocom.layout.CC}
+	 * with this layout manager. The returned values is either a String or a {@link coza.mambo.migraine.layout.CC}
 	 * depending on what constraint was sent in when the component was added. May be <code>null</code>.
 	 */
 	public Object getComponentConstraints(Component comp)
@@ -270,7 +270,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	/** Sets the component constraint for the component that already must be handled by this layout manager.
 	 * <p>
 	 * See the class JavaDocs for information on how this string is formatted.
-	 * @param constr The component constraints as a String or {@link net.miginfocom.layout.CC}. <code>null</code> is ok.
+	 * @param constr The component constraints as a String or {@link coza.mambo.migraine.layout.CC}. <code>null</code> is ok.
 	 * @param comp The component to set the constraints for.
 	 * @throws RuntimeException if the constraint was not valid.
 	 * @throws IllegalArgumentException If the component is not handling the component.
@@ -283,7 +283,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 	/** Sets the component constraint for the component that already must be handled by this layout manager.
 	 * <p>
 	 * See the class JavaDocs for information on how this string is formatted.
-	 * @param constr The component constraints as a String or {@link net.miginfocom.layout.CC}. <code>null</code> is ok.
+	 * @param constr The component constraints as a String or {@link coza.mambo.migraine.layout.CC}. <code>null</code> is ok.
 	 * @param comp The component to set the constraints for.
 	 * @param noCheck Doe not check if the component is handled if true
 	 * @throws RuntimeException if the constraint was not valid.
@@ -404,7 +404,7 @@ public final class MigLayout implements LayoutManager2, Externalizable
 		return debugTimer != null;
 	}
 
-	/** Returns the debug millis. Combines the value from {@link net.miginfocom.layout.LC#getDebugMillis()} and {@link net.miginfocom.layout.LayoutUtil#getGlobalDebugMillis()}
+	/** Returns the debug millis. Combines the value from {@link coza.mambo.migraine.layout.LC#getDebugMillis()} and {@link coza.mambo.migraine.layout.LayoutUtil#getGlobalDebugMillis()}
 	 * @return The combined value.
 	 */
 	private int getDebugMillis()

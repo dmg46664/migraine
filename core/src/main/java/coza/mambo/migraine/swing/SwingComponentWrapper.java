@@ -36,11 +36,18 @@ package coza.mambo.migraine.swing;
 import coza.mambo.migraine.layout.ComponentWrapper;
 import coza.mambo.migraine.layout.ContainerWrapper;
 import coza.mambo.migraine.layout.PlatformDefaults;
+import playn.core.PlayN;
+import pythagoras.f.*;
+import pythagoras.f.Rectangle;
+import tripleplay.ui.Element;
+import tripleplay.ui.Group;
 
-import javax.swing.*;
+//import javax.swing.*;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
 import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.geom.Rectangle2D;
 import java.util.IdentityHashMap;
 
@@ -62,27 +69,34 @@ public class SwingComponentWrapper implements ComponentWrapper
 	 */
 	private static final String VISUAL_PADDING_PROPERTY = coza.mambo.migraine.layout.PlatformDefaults.VISUAL_PADDING_PROPERTY;
 
-	private final Component c;
+	private final Element c;
 	private int compType = TYPE_UNSET;
 	private Boolean bl = null;
 	private boolean prefCalled = false;
 
-	public SwingComponentWrapper(Component c)
+	private Component oldC ;
+
+	//argument was Component
+	public SwingComponentWrapper(Element c)
 	{
 		this.c = c;
 	}
 
+	//see documentation in parent
+	@Override
 	public final int getBaseline(int width, int height)
 	{
-		int baseLine = c.getBaseline(width < 0 ? c.getWidth() : width, height < 0 ? c.getHeight() : height);
-		if (baseLine != -1) {
-			int[] visPad = getVisualPadding();
-			if (visPad != null)
-				baseLine += (visPad[2] - visPad[0] + 1) / 2;
-		}
-		return baseLine;
+//		int baseLine = c.getBaseline(width < 0 ? c.getWidth() : width, height < 0 ? c.getHeight() : height);
+//		if (baseLine != -1) {
+//			int[] visPad = getVisualPadding();
+//			if (visPad != null)
+//				baseLine += (visPad[2] - visPad[0] + 1) / 2;
+//		}
+//		return baseLine;
+		return -1 ;
 	}
 
+	@Override
 	public final Object getComponent()
 	{
 		return c;
@@ -93,30 +107,37 @@ public class SwingComponentWrapper implements ComponentWrapper
 	private final static IdentityHashMap<FontMetrics, Point.Float> FM_MAP = new IdentityHashMap<FontMetrics, Point.Float>(4);
 	private final static Font SUBST_FONT = new Font("sansserif", Font.PLAIN, 11);
 
+	//see documentation in parent
+	@Override
 	public final float getPixelUnitFactor(boolean isHor)
 	{
-		switch (PlatformDefaults.getLogicalPixelBase()) {
-			case PlatformDefaults.BASE_FONT_SIZE:
-				Font font = c.getFont();
-				FontMetrics fm = c.getFontMetrics(font != null ? font : SUBST_FONT);
-				Point.Float p = FM_MAP.get(fm);
-				if (p == null) {
-					Rectangle2D r = fm.getStringBounds("X", c.getGraphics());
-					p = new Point.Float(((float) r.getWidth()) / 6f, ((float) r.getHeight()) / 13.27734375f);
-					FM_MAP.put(fm, p);
-				}
-				return isHor ? p.x : p.y;
+		return 1.0f;
 
-			case PlatformDefaults.BASE_SCALE_FACTOR:
+		/** this has something to do with the with the anti-aliased size of "X" */
+		//TODO take a look at the code below to figure it out.
 
-				Float s = isHor ? PlatformDefaults.getHorizontalScaleFactor() : PlatformDefaults.getVerticalScaleFactor();
-				if (s == null)
-					s = 1.0f;
-				return s * (isHor ? getHorizontalScreenDPI() : getVerticalScreenDPI()) / (float) PlatformDefaults.getDefaultDPI();
-
-			default:
-				return 1f;
-		}
+//		switch (PlatformDefaults.getLogicalPixelBase()) {
+//			case PlatformDefaults.BASE_FONT_SIZE:
+//				Font font = c.getFont();
+//				FontMetrics fm = c.getFontMetrics(font != null ? font : SUBST_FONT);
+//				Point.Float p = FM_MAP.get(fm);
+//				if (p == null) {
+//					Rectangle2D r = fm.getStringBounds("X", c.getGraphics());
+//					p = new Point.Float(((float) r.getWidth()) / 6f, ((float) r.getHeight()) / 13.27734375f);
+//					FM_MAP.put(fm, p);
+//				}
+//				return isHor ? p.x : p.y;
+//
+//			case PlatformDefaults.BASE_SCALE_FACTOR:
+//
+//				Float s = isHor ? PlatformDefaults.getHorizontalScaleFactor() : PlatformDefaults.getVerticalScaleFactor();
+//				if (s == null)
+//					s = 1.0f;
+//				return s * (isHor ? getHorizontalScreenDPI() : getVerticalScreenDPI()) / (float) PlatformDefaults.getDefaultDPI();
+//
+//			default:
+//				return 1f;
+//		}
 	}
 
 //	/** Cache.
@@ -140,89 +161,112 @@ public class SwingComponentWrapper implements ComponentWrapper
 //		return isHor ? dluP.x : dluP.y;
 //	}
 
+	@Override
 	public final int getX()
 	{
-		return c.getX();
+		return Math.round(c.x());
 	}
 
+	@Override
 	public final int getY()
 	{
-		return c.getY();
+		return Math.round(c.y());
 	}
 
+	pythagoras.f.Rectangle temp = new pythagoras.f.Rectangle();
+	@Override
 	public final int getHeight()
 	{
-		return c.getHeight();
+		return Math.round(c.bounds(temp).height());
 	}
 
+	@Override
 	public final int getWidth()
 	{
-		return c.getWidth();
+		return Math.round(c.bounds(temp).width());
 	}
 
+	@Override
 	public final int getScreenLocationX()
 	{
-		Point p = new Point();
-		SwingUtilities.convertPointToScreen(p, c);
-		return p.x;
+
+		//TODO fudging this one, althought I think the original is also wrong.
+//		Point p = new Point();
+//		SwingUtilities.convertPointToScreen(p, c);
+		return Math.round(c.x());
 	}
 
+	@Override
 	public final int getScreenLocationY()
 	{
-		Point p = new Point();
-		SwingUtilities.convertPointToScreen(p, c);
-		return p.y;
+		//TODO fudging this one, althought I think the original is also wrong.
+//		Point p = new Point();
+//		SwingUtilities.convertPointToScreen(p, c);
+		return Math.round(c.y());
 	}
 
+	@Override
 	public final int getMinimumHeight(int sz)
 	{
-		if (prefCalled == false) {
-			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
-			prefCalled = true;
-		}
-		return c.getMinimumSize().height;
+		return getHeight(); //TODO fudge
+//		if (prefCalled == false) {
+//			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
+//			prefCalled = true;
+//		}
+//		return c.getMinimumSize().height;
 	}
 
+	@Override
 	public final int getMinimumWidth(int sz)
 	{
-		if (prefCalled == false) {
-			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
-			prefCalled = true;
-		}
-		return c.getMinimumSize().width;
+		return getWidth(); //TODO fudge
+//		if (prefCalled == false) {
+//			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
+//			prefCalled = true;
+//		}
+//		return c.getMinimumSize().width;
 	}
+
+	@Override
 	public final int getPreferredHeight(int sz)
 	{
-		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
-		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
-			c.setBounds(c.getX(), c.getY(), sz, 1);
-
-		return c.getPreferredSize().height;
+		return getHeight(); //TODO fudge
+//		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
+//		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
+//			c.setBounds(c.getX(), c.getY(), sz, 1);
+//
+//		return c.getPreferredSize().height;
 	}
 
+	@Override
 	public final int getPreferredWidth(int sz)
 	{
-		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
-		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
-			c.setBounds(c.getX(), c.getY(), 1, sz);
-
-		return c.getPreferredSize().width;
+		return getWidth(); //TODO fudge
+//		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
+//		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
+//			c.setBounds(c.getX(), c.getY(), 1, sz);
+//
+//		return c.getPreferredSize().width;
 	}
 
+	@Override
 	public final int getMaximumHeight(int sz)
 	{
-		if (!isMaxSet(c))
-			return Short.MAX_VALUE;
-
-		return c.getMaximumSize().height;
+		return getHeight();
+//		if (!isMaxSet(c))
+//			return Short.MAX_VALUE;
+//
+//		return c.getMaximumSize().height;
 	}
 
+	@Override
 	public final int getMaximumWidth(int sz)
 	{
-		if (!isMaxSet(c))
-			return Short.MAX_VALUE;
-
-		return c.getMaximumSize().width;
+		return getWidth();
+//		if (!isMaxSet(c))
+//			return Short.MAX_VALUE;
+//
+//		return c.getMaximumSize().width;
 	}
 
 
@@ -231,47 +275,59 @@ public class SwingComponentWrapper implements ComponentWrapper
 		return c.isMaximumSizeSet();
 	}
 
+	@Override
 	public final ContainerWrapper getParent()
 	{
-		Container p = c.getParent();
+		Group p = null ;
+		if (c.parent() instanceof Group)
+			p = (Group) c.parent() ;
 		return p != null ? new SwingContainerWrapper(p) : null;
 	}
 
+	@Override
     public final int getHorizontalScreenDPI() {
-        try {
-            return c.getToolkit().getScreenResolution();
-        } catch (HeadlessException ex) {
+	    //TODO unfudge
+//        try {
+//            return c.getToolkit().getScreenResolution();
+//        } catch (HeadlessException ex) {
             return PlatformDefaults.getDefaultDPI();
-        }
+//        }
     }
 
+	@Override
 	public final int getVerticalScreenDPI()
 	{
-        try {
-            return c.getToolkit().getScreenResolution();
-        } catch (HeadlessException ex) {
+		//TODO undfudge
+//        try {
+//            return c.getToolkit().getScreenResolution();
+//        } catch (HeadlessException ex) {
             return PlatformDefaults.getDefaultDPI();
-        }
+//        }
 	}
 
+	@Override
 	public final int getScreenWidth()
 	{
 		try {
-			return c.getToolkit().getScreenSize().width;
+			return PlayN.graphics().width() ;
+//			return c.getToolkit().getScreenSize().width;
 		} catch (HeadlessException ex) {
 			return 1024;
 		}
 	}
 
+	@Override
 	public final int getScreenHeight()
 	{
 		try {
-			return c.getToolkit().getScreenSize().height;
+			return PlayN.graphics().height();
+//			return c.getToolkit().getScreenSize().height;
 		} catch (HeadlessException ex) {
 			return 768;
 		}
 	}
 
+	@Override
 	public final boolean hasBaseline()
 	{
 		if (bl == null) {
@@ -280,8 +336,10 @@ public class SwingComponentWrapper implements ComponentWrapper
 //				if (c.getBaselineResizeBehavior() == Component.BaselineResizeBehavior.OTHER) {
 //					bl = Boolean.FALSE;
 //				} else {
-					Dimension d = c.getMinimumSize();
-					bl = getBaseline(d.width, d.height) > -1;
+					Rectangle r = new Rectangle() ;
+					c.bounds(r);
+					bl = getBaseline(Math.round(r.size().width),
+							Math.round(r.size().height)) > -1;
 //				}
 			} catch (Throwable ex) {
 				bl = Boolean.FALSE;
@@ -290,14 +348,17 @@ public class SwingComponentWrapper implements ComponentWrapper
 		return bl;
 	}
 
+	@Override
 	public final String getLinkId()
 	{
-		return c.getName();
+		return c.toString();
 	}
 
 	public final void setBounds(int x, int y, int width, int height)
 	{
-		c.setBounds(x, y, width, height);
+		//TODO would be nice to expose this in TP Element.
+		c.layer.setTranslation(MathUtil.ifloor(x), MathUtil.ifloor(y));
+
 	}
 
 	public boolean isVisible()
@@ -528,6 +589,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 		return compType;
 	}
+
 
 	public int getLayoutHashCode()
 	{
