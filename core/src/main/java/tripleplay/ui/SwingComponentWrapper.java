@@ -1,4 +1,4 @@
-package coza.mambo.migraine.swing;
+package tripleplay.ui;
 /*
  * License (BSD):
  * ==============
@@ -36,19 +36,14 @@ package coza.mambo.migraine.swing;
 import coza.mambo.migraine.layout.ComponentWrapper;
 import coza.mambo.migraine.layout.ContainerWrapper;
 import coza.mambo.migraine.layout.PlatformDefaults;
+import playn.core.Color;
 import playn.core.PlayN;
 import pythagoras.f.*;
 import pythagoras.f.Rectangle;
-import tripleplay.ui.Element;
-import tripleplay.ui.Group;
 
-//import javax.swing.*;
+//import javax.ui.*;
 import javax.swing.border.Border;
 import javax.swing.text.JTextComponent;
-import java.awt.*;
-import java.awt.Dimension;
-import java.awt.Point;
-import java.awt.geom.Rectangle2D;
 import java.util.IdentityHashMap;
 
 /**
@@ -61,7 +56,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 	/** Debug color for component bounds outline.
 	 */
-	private static final Color DB_COMP_OUTLINE = new Color(0, 0, 200);
+	private static final int DB_COMP_OUTLINE = Color.rgb(0, 0, 200);
 
 	/** Property to use in LAF settings and as JComponent client property
 	 * to specify the visual padding.
@@ -74,7 +69,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	private Boolean bl = null;
 	private boolean prefCalled = false;
 
-	private Component oldC ;
+//	private Component oldC ;
 
 	//argument was Component
 	public SwingComponentWrapper(Element c)
@@ -208,7 +203,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getMinimumHeight(int sz)
 	{
-		return getHeight(); //TODO fudge
+		return this.getPreferredHeight(sz);
 //		if (prefCalled == false) {
 //			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
 //			prefCalled = true;
@@ -219,7 +214,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getMinimumWidth(int sz)
 	{
-		return getWidth(); //TODO fudge
+		return this.getPreferredWidth(sz);
 //		if (prefCalled == false) {
 //			c.getPreferredSize(); // To defeat a bug where the minimum size is different before and after the first call to getPreferredSize();
 //			prefCalled = true;
@@ -230,7 +225,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getPreferredHeight(int sz)
 	{
-		return getHeight(); //TODO fudge
+		return Math.round(c._preferredSize.height) ;
 //		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
 //		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
 //			c.setBounds(c.getX(), c.getY(), sz, 1);
@@ -241,7 +236,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getPreferredWidth(int sz)
 	{
-		return getWidth(); //TODO fudge
+		return Math.round(c._preferredSize.width) ;
 //		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
 //		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
 //			c.setBounds(c.getX(), c.getY(), 1, sz);
@@ -252,7 +247,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getMaximumHeight(int sz)
 	{
-		return getHeight();
+		return this.getPreferredHeight(sz);
 //		if (!isMaxSet(c))
 //			return Short.MAX_VALUE;
 //
@@ -262,7 +257,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getMaximumWidth(int sz)
 	{
-		return getWidth();
+		return this.getPreferredWidth(sz);
 //		if (!isMaxSet(c))
 //			return Short.MAX_VALUE;
 //
@@ -354,183 +349,190 @@ public class SwingComponentWrapper implements ComponentWrapper
 		return c.toString();
 	}
 
+	@Override
 	public final void setBounds(int x, int y, int width, int height)
 	{
-		//TODO would be nice to expose this in TP Element.
-		c.layer.setTranslation(MathUtil.ifloor(x), MathUtil.ifloor(y));
+		c.setLocation(MathUtil.ifloor(x),y);
+		c.setSize(width, height);
 
 	}
 
+	@Override
 	public boolean isVisible()
 	{
 		return c.isVisible();
 	}
 
+	@Override
 	public final int[] getVisualPadding()
 	{
+		//TODO look in parent for docs.
+		//don't know how the default will effet things.
+		//will worry about it later.
+
 		int[] padding = null;
-		if (isVisualPaddingEnabled()) {
-			//First try "visualPadding" client property
-			if (c instanceof JComponent) {
-				JComponent component = (JComponent) c;
-				Object padValue = component.getClientProperty(VISUAL_PADDING_PROPERTY);
-
-				if (padValue instanceof int[] ) {
-					//client property value could be an int[]
-					padding = (int[]) padValue;
-				} else if (padValue instanceof Insets) {
-					//OR client property value could be an Insets
-					Insets padInsets = (Insets) padValue;
-					padding = new int[] { padInsets.top, padInsets.left, padInsets.bottom, padInsets.right };
-				}
-
-				if (padding == null) {
-					//No client property set on the individual JComponent,
-					//	so check for a LAF setting for the component type.
-					String classID;
-					switch (getComponentType(false)) {
-						case TYPE_BUTTON:
-							Border border = component.getBorder();
-							if (border != null && border.getClass().getName().startsWith("com.apple.laf.AquaButtonBorder")) {
-								if (PlatformDefaults.getPlatform() == PlatformDefaults.MAC_OSX) {
-									Object buttonType = component.getClientProperty("JButton.buttonType");
-									if (buttonType == null) {
-										classID = component.getHeight() < 33 ? "Button" : "Button.bevel";
-									} else {
-										classID = "Button." + buttonType;
-									}
-									if (((AbstractButton) component).getIcon() != null)
-										classID += ".icon";
-								} else {
-									classID = "Button";
-								}
-							} else {
-								classID = "";
-							}
-							break;
-
-						case TYPE_CHECK_BOX:
-							border = component.getBorder();
-							if (border != null && border.getClass().getName().startsWith("com.apple.laf.AquaButtonBorder")) {
-								Object size = component.getClientProperty("JComponent.sizeVariant");
-								if (size != null && size.toString().equals("regular") == false) {
-									size = "." + size;
-								} else {
-									size = "";
-								}
-
-								if (component instanceof JRadioButton) {
-									classID = "RadioButton" + size;
-								} else if (component instanceof JCheckBox) {
-									classID = "CheckBox" + size;
-								} else {
-									classID = "ToggleButton" + size;
-								}
-							} else {
-								classID = "";
-							}
-							break;
-
-						case TYPE_COMBO_BOX:
-							if (PlatformDefaults.getPlatform() == PlatformDefaults.MAC_OSX) {
-								if (((JComboBox) component).isEditable()) {
-									Object isSquare = component.getClientProperty("JComboBox.isSquare");
-									if (isSquare != null && isSquare.toString().equals("true")) {
-										classID = "ComboBox.editable.isSquare";
-									} else {
-										classID = "ComboBox.editable";
-									}
-
-								} else {
-									Object isSquare = component.getClientProperty("JComboBox.isSquare");
-									Object isPopDown = component.getClientProperty("JComboBox.isPopDown");
-
-									if (isSquare != null && isSquare.toString().equals("true")) {
-										classID = "ComboBox.isSquare";
-									} else if (isPopDown != null && isPopDown.toString().equals("true")) {
-										classID = "ComboBox.isPopDown";
-									} else {
-										classID = "ComboBox";
-									}
-								}
-							} else {
-								classID = "ComboBox";
-							}
-							break;
-						case TYPE_CONTAINER:
-							classID = "Container";
-							break;
-						case TYPE_IMAGE:
-							classID = "Image";
-							break;
-						case TYPE_LABEL:
-							classID = "Label";
-							break;
-						case TYPE_LIST:
-							classID = "List";
-							break;
-						case TYPE_PANEL:
-							classID = "Panel";
-							break;
-						case TYPE_PROGRESS_BAR:
-							classID = "ProgressBar";
-							break;
-						case TYPE_SCROLL_BAR:
-							classID = "ScrollBar";
-							break;
-						case TYPE_SCROLL_PANE:
-							classID = "ScrollPane";
-							break;
-						case TYPE_SEPARATOR:
-							classID = "Separator";
-							break;
-						case TYPE_SLIDER:
-							classID = "Slider";
-							break;
-						case TYPE_SPINNER:
-							classID = "Spinner";
-							break;
-						case TYPE_TABLE:
-							classID = "Table";
-							break;
-						case TYPE_TABBED_PANE:
-							classID = "TabbedPane";
-							break;
-						case TYPE_TEXT_AREA:
-							classID = "TextArea";
-							break;
-						case TYPE_TEXT_FIELD:
-							border = component.getBorder();
-							if (border != null && border.getClass().getSimpleName().equals("AquaTextFieldBorder")) {
-								classID = "TextField";
-							} else {
-								classID = "";
-							}
-							break;
-						case TYPE_TREE:
-							classID = "Tree";
-							break;
-						case TYPE_UNKNOWN:
-							classID = "Other";
-							break;
-						case TYPE_UNSET:
-						default:
-							classID = "";
-							break;
-					}
-
-					padValue = UIManager.get(classID + "." + VISUAL_PADDING_PROPERTY);
-					if (padValue instanceof int[]) {
-						//client property value could be an int[]
-						padding = (int[]) padValue;
-					} else if (padValue instanceof Insets) {
-						//OR client property value could be an Insets
-						Insets padInsets = (Insets) padValue;
-						padding = new int[] { padInsets.top, padInsets.left, padInsets.bottom, padInsets.right };
-					}
-				}
-			}
-		}
+//		if (isVisualPaddingEnabled()) {
+//			//First try "visualPadding" client property
+//			if (c instanceof JComponent) {
+//				JComponent component = (JComponent) c;
+//				Object padValue = component.getClientProperty(VISUAL_PADDING_PROPERTY);
+//
+//				if (padValue instanceof int[] ) {
+//					//client property value could be an int[]
+//					padding = (int[]) padValue;
+//				} else if (padValue instanceof Insets) {
+//					//OR client property value could be an Insets
+//					Insets padInsets = (Insets) padValue;
+//					padding = new int[] { padInsets.top, padInsets.left, padInsets.bottom, padInsets.right };
+//				}
+//
+//				if (padding == null) {
+//					//No client property set on the individual JComponent,
+//					//	so check for a LAF setting for the component type.
+//					String classID;
+//					switch (getComponentType(false)) {
+//						case TYPE_BUTTON:
+//							Border border = component.getBorder();
+//							if (border != null && border.getClass().getName().startsWith("com.apple.laf.AquaButtonBorder")) {
+//								if (PlatformDefaults.getPlatform() == PlatformDefaults.MAC_OSX) {
+//									Object buttonType = component.getClientProperty("JButton.buttonType");
+//									if (buttonType == null) {
+//										classID = component.getHeight() < 33 ? "Button" : "Button.bevel";
+//									} else {
+//										classID = "Button." + buttonType;
+//									}
+//									if (((AbstractButton) component).getIcon() != null)
+//										classID += ".icon";
+//								} else {
+//									classID = "Button";
+//								}
+//							} else {
+//								classID = "";
+//							}
+//							break;
+//
+//						case TYPE_CHECK_BOX:
+//							border = component.getBorder();
+//							if (border != null && border.getClass().getName().startsWith("com.apple.laf.AquaButtonBorder")) {
+//								Object size = component.getClientProperty("JComponent.sizeVariant");
+//								if (size != null && size.toString().equals("regular") == false) {
+//									size = "." + size;
+//								} else {
+//									size = "";
+//								}
+//
+//								if (component instanceof JRadioButton) {
+//									classID = "RadioButton" + size;
+//								} else if (component instanceof JCheckBox) {
+//									classID = "CheckBox" + size;
+//								} else {
+//									classID = "ToggleButton" + size;
+//								}
+//							} else {
+//								classID = "";
+//							}
+//							break;
+//
+//						case TYPE_COMBO_BOX:
+//							if (PlatformDefaults.getPlatform() == PlatformDefaults.MAC_OSX) {
+//								if (((JComboBox) component).isEditable()) {
+//									Object isSquare = component.getClientProperty("JComboBox.isSquare");
+//									if (isSquare != null && isSquare.toString().equals("true")) {
+//										classID = "ComboBox.editable.isSquare";
+//									} else {
+//										classID = "ComboBox.editable";
+//									}
+//
+//								} else {
+//									Object isSquare = component.getClientProperty("JComboBox.isSquare");
+//									Object isPopDown = component.getClientProperty("JComboBox.isPopDown");
+//
+//									if (isSquare != null && isSquare.toString().equals("true")) {
+//										classID = "ComboBox.isSquare";
+//									} else if (isPopDown != null && isPopDown.toString().equals("true")) {
+//										classID = "ComboBox.isPopDown";
+//									} else {
+//										classID = "ComboBox";
+//									}
+//								}
+//							} else {
+//								classID = "ComboBox";
+//							}
+//							break;
+//						case TYPE_CONTAINER:
+//							classID = "Container";
+//							break;
+//						case TYPE_IMAGE:
+//							classID = "Image";
+//							break;
+//						case TYPE_LABEL:
+//							classID = "Label";
+//							break;
+//						case TYPE_LIST:
+//							classID = "List";
+//							break;
+//						case TYPE_PANEL:
+//							classID = "Panel";
+//							break;
+//						case TYPE_PROGRESS_BAR:
+//							classID = "ProgressBar";
+//							break;
+//						case TYPE_SCROLL_BAR:
+//							classID = "ScrollBar";
+//							break;
+//						case TYPE_SCROLL_PANE:
+//							classID = "ScrollPane";
+//							break;
+//						case TYPE_SEPARATOR:
+//							classID = "Separator";
+//							break;
+//						case TYPE_SLIDER:
+//							classID = "Slider";
+//							break;
+//						case TYPE_SPINNER:
+//							classID = "Spinner";
+//							break;
+//						case TYPE_TABLE:
+//							classID = "Table";
+//							break;
+//						case TYPE_TABBED_PANE:
+//							classID = "TabbedPane";
+//							break;
+//						case TYPE_TEXT_AREA:
+//							classID = "TextArea";
+//							break;
+//						case TYPE_TEXT_FIELD:
+//							border = component.getBorder();
+//							if (border != null && border.getClass().getSimpleName().equals("AquaTextFieldBorder")) {
+//								classID = "TextField";
+//							} else {
+//								classID = "";
+//							}
+//							break;
+//						case TYPE_TREE:
+//							classID = "Tree";
+//							break;
+//						case TYPE_UNKNOWN:
+//							classID = "Other";
+//							break;
+//						case TYPE_UNSET:
+//						default:
+//							classID = "";
+//							break;
+//					}
+//
+//					padValue = UIManager.get(classID + "." + VISUAL_PADDING_PROPERTY);
+//					if (padValue instanceof int[]) {
+//						//client property value could be an int[]
+//						padding = (int[]) padValue;
+//					} else if (padValue instanceof Insets) {
+//						//OR client property value could be an Insets
+//						Insets padInsets = (Insets) padValue;
+//						padding = new int[] { padInsets.top, padInsets.left, padInsets.bottom, padInsets.right };
+//					}
+//				}
+//			}
+//		}
 		return padding;
 	}
 
@@ -562,24 +564,26 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 	public final void paintDebugOutline(boolean showVisualPadding)
 	{
-		if (c.isShowing() == false)
-			return;
+		//TODO Support debug operations
 
-		Graphics2D g = (Graphics2D) c.getGraphics();
-		if (g == null)
-			return;
-
-		g.setPaint(DB_COMP_OUTLINE);
-		g.setStroke(new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10f, new float[] {2f, 4f}, 0));
-		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
-
-		if (showVisualPadding && isVisualPaddingEnabled()) {
-			int[] padding = getVisualPadding();
-			if (padding != null) {
-				g.setColor(Color.GREEN);
-				g.drawRect(padding[1], padding[0], (getWidth() - 1) - (padding[1] + padding[3]), (getHeight() - 1) - (padding[0] + padding[2]));
-			}
-		}
+//		if (c.isShowing() == false)
+//			return;
+//
+//		Graphics2D g = (Graphics2D) c.getGraphics();
+//		if (g == null)
+//			return;
+//
+//		g.setPaint(DB_COMP_OUTLINE);
+//		g.setStroke(new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10f, new float[] {2f, 4f}, 0));
+//		g.drawRect(0, 0, getWidth() - 1, getHeight() - 1);
+//
+//		if (showVisualPadding && isVisualPaddingEnabled()) {
+//			int[] padding = getVisualPadding();
+//			if (padding != null) {
+//				g.setColor(Color.GREEN);
+//				g.drawRect(padding[1], padding[0], (getWidth() - 1) - (padding[1] + padding[3]), (getHeight() - 1) - (padding[0] + padding[2]));
+//			}
+//		}
 	}
 
 	public int getComponentType(boolean disregardScrollPane)
@@ -593,14 +597,17 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 	public int getLayoutHashCode()
 	{
-		Dimension d = c.getMaximumSize();
-		int hash = d.width + (d.height << 5);
+		int width = this.getMaximumWidth(0);
+		int height = this.getMaximumHeight(0);
+		int hash = width + (height << 5);
 
-		d = c.getPreferredSize();
-		hash += (d.width << 10) + (d.height << 15);
+		width = this.getPreferredWidth(0);
+		height = this.getPreferredHeight(0);
+		hash += (width << 10) + (height << 15);
 
-		d = c.getMinimumSize();
-		hash += (d.width << 20) + (d.height << 25);
+		width = this.getMinimumWidth(0);
+		height = this.getMinimumHeight(0);
+		hash += (width << 20) + (height << 25);
 
 		if (c.isVisible())
 			hash += 1324511;
@@ -614,52 +621,61 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 	private int checkType(boolean disregardScrollPane)
 	{
-		Component c = this.c;
+		//TODO . Only supports buttons at the moment, support more
 
-		if (disregardScrollPane) {
-			if (c instanceof JScrollPane) {
-				c = ((JScrollPane) c).getViewport().getView();
-			} else if (c instanceof ScrollPane) {
-				c = ((ScrollPane) c).getComponent(0);
-			}
-		}
+		Element c = this.c;
+//
+//		if (disregardScrollPane) {
+//			if (c instanceof JScrollPane) {
+//				c = ((JScrollPane) c).getViewport().getView();
+//			} else if (c instanceof ScrollPane) {
+//				c = ((ScrollPane) c).getComponent(0);
+//			}
+//		}
 
-		if (c instanceof JTextField || c instanceof TextField) {
-			return TYPE_TEXT_FIELD;
-		} else if (c instanceof JLabel || c instanceof Label) {
-			return TYPE_LABEL;
-		} else if (c instanceof JCheckBox || c instanceof JRadioButton || c instanceof Checkbox) {
-			return TYPE_CHECK_BOX;
-		} else if (c instanceof AbstractButton || c instanceof Button) {
-			return TYPE_BUTTON;
-		} else if (c instanceof JComboBox || c instanceof Choice) {
-			return TYPE_COMBO_BOX;
-		} else if (c instanceof JTextComponent || c instanceof TextComponent) {
-			return TYPE_TEXT_AREA;
-		} else if (c instanceof JPanel || c instanceof Canvas) {
-			return TYPE_PANEL;
-		} else if (c instanceof JList || c instanceof List) {
-			return TYPE_LIST;
-		} else if (c instanceof JTable) {
-			return TYPE_TABLE;
-		} else if (c instanceof JSeparator) {
-			return TYPE_SEPARATOR;
-		} else if (c instanceof JSpinner) {
-			return TYPE_SPINNER;
-		} else if (c instanceof JTabbedPane) {
-			return TYPE_TABBED_PANE;
-		} else if (c instanceof JProgressBar) {
-			return TYPE_PROGRESS_BAR;
-		} else if (c instanceof JSlider) {
-			return TYPE_SLIDER;
-		} else if (c instanceof JScrollPane) {
-			return TYPE_SCROLL_PANE;
-		} else if (c instanceof JScrollBar || c instanceof Scrollbar) {
-			return TYPE_SCROLL_BAR;
-		} else if (c instanceof Container) {    // only AWT components is not containers.
+		if (c instanceof Group)
 			return TYPE_CONTAINER;
-		}
-		return TYPE_UNKNOWN;
+		else if (c instanceof Button)
+			return TYPE_BUTTON ;
+
+		throw new UnsupportedOperationException("This type of entity isn't supported");
+
+//		if (c instanceof JTextField || c instanceof TextField) {
+//			return TYPE_TEXT_FIELD;
+//		} else if (c instanceof JLabel || c instanceof Label) {
+//			return TYPE_LABEL;
+//		} else if (c instanceof JCheckBox || c instanceof JRadioButton || c instanceof Checkbox) {
+//			return TYPE_CHECK_BOX;
+//		} else if (c instanceof AbstractButton || c instanceof Button) {
+//			return TYPE_BUTTON;
+//		} else if (c instanceof JComboBox || c instanceof Choice) {
+//			return TYPE_COMBO_BOX;
+//		} else if (c instanceof JTextComponent || c instanceof TextComponent) {
+//			return TYPE_TEXT_AREA;
+//		} else if (c instanceof JPanel || c instanceof Canvas) {
+//			return TYPE_PANEL;
+//		} else if (c instanceof JList || c instanceof List) {
+//			return TYPE_LIST;
+//		} else if (c instanceof JTable) {
+//			return TYPE_TABLE;
+//		} else if (c instanceof JSeparator) {
+//			return TYPE_SEPARATOR;
+//		} else if (c instanceof JSpinner) {
+//			return TYPE_SPINNER;
+//		} else if (c instanceof JTabbedPane) {
+//			return TYPE_TABBED_PANE;
+//		} else if (c instanceof JProgressBar) {
+//			return TYPE_PROGRESS_BAR;
+//		} else if (c instanceof JSlider) {
+//			return TYPE_SLIDER;
+//		} else if (c instanceof JScrollPane) {
+//			return TYPE_SCROLL_PANE;
+//		} else if (c instanceof JScrollBar || c instanceof Scrollbar) {
+//			return TYPE_SCROLL_BAR;
+//		} else if (c instanceof Container) {    // only AWT components is not containers.
+//			return TYPE_CONTAINER;
+//		}
+//		return TYPE_UNKNOWN;
 	}
 
 	public final int hashCode()

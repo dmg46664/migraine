@@ -1,4 +1,4 @@
-package coza.mambo.migraine.swing;
+package tripleplay.ui;
 /*
  * License (BSD):
  * ==============
@@ -37,9 +37,6 @@ import coza.mambo.migraine.layout.*;
 
 import javax.swing.*;
 import javax.swing.Timer;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.*;
 
@@ -47,7 +44,7 @@ import java.util.*;
  * <p>
  * Read the documentation that came with this layout manager for information on usage.
  */
-public final class MigLayout implements LayoutManager2, Externalizable
+public final class MigLayout implements Layout, Externalizable
 {
 	// ******** Instance part ********
 

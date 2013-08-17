@@ -1,4 +1,4 @@
-package coza.mambo.migraine.swing;
+package tripleplay.ui;
 /*
  * License (BSD):
  * ==============
@@ -38,8 +38,6 @@ package coza.mambo.migraine.swing;
 import coza.mambo.migraine.layout.ComponentWrapper;
 import coza.mambo.migraine.layout.ContainerWrapper;
 import playn.core.Color;
-import tripleplay.ui.Element;
-import tripleplay.ui.Group;
 
 
 /**

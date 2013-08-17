@@ -223,7 +223,7 @@ public interface ComponentWrapper
 	/** Returns the DPI (Dots Per Inch) of the screen the component is currently in or for the default
 	 * screen if the component is not visible.
 	 * <p>
-	 * If headless mode {@link net.miginfocom.layout.PlatformDefaults#getDefaultDPI} will be returned.
+	 * If headless mode {@link coza.mambo.migraine.layout.PlatformDefaults#getDefaultDPI} will be returned.
 	 * @return The DPI.
 	 */
 	public abstract int getHorizontalScreenDPI();
@@ -231,7 +231,7 @@ public interface ComponentWrapper
 	/** Returns the DPI (Dots Per Inch) of the screen the component is currently in or for the default
 	 * screen if the component is not visible.
 	 * <p>
-	 * If headless mode {@link net.miginfocom.layout.PlatformDefaults#getDefaultDPI} will be returned.
+	 * If headless mode {@link coza.mambo.migraine.layout.PlatformDefaults#getDefaultDPI} will be returned.
 	 * @return The DPI.
 	 */
 	public abstract int getVerticalScreenDPI();

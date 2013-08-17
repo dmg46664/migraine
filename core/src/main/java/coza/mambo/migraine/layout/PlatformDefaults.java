@@ -1,7 +1,7 @@
 package coza.mambo.migraine.layout;
 
-import javax.swing.*;
-import java.awt.*;
+
+
 import java.util.HashMap;
 /*
  * License (BSD):
@@ -108,8 +108,8 @@ public final class PlatformDefaults
 	/** I value indicating that the size of the font for the container of the component
 	 * will be used as a base for calculating the logical pixel size. This is much as how
 	 * Windows calculated DLU (dialog units).
-	 * @see net.miginfocom.layout.UnitValue#LPX
-	 * @see net.miginfocom.layout.UnitValue#LPY
+//	 * @see net.miginfocom.layout.UnitValue#LPX
+//	 * @see net.miginfocom.layout.UnitValue#LPY
 	 * @see #setLogicalPixelBase(int)
 	 */
 	public static final int BASE_FONT_SIZE = 100;
@@ -118,8 +118,8 @@ public final class PlatformDefaults
 	 * logical pixel size.
 	 * <p>
 	 * This is the default value.
-	 * @see net.miginfocom.layout.UnitValue#LPX
-	 * @see net.miginfocom.layout.UnitValue#LPY
+//	 * @see net.miginfocom.layout.UnitValue#LPX
+//	 * @see net.miginfocom.layout.UnitValue#LPY
 	 * @see #setLogicalPixelBase(int)
 	 * @see #setVerticalScaleFactor(Float)
 	 * @see #setHorizontalScaleFactor(Float)
@@ -128,8 +128,8 @@ public final class PlatformDefaults
 
 	/** I value indicating that the size of a logical pixel should always be a real pixel
 	 * and thus no compensation will be made.
-	 * @see net.miginfocom.layout.UnitValue#LPX
-	 * @see net.miginfocom.layout.UnitValue#LPY
+//	 * @see net.miginfocom.layout.UnitValue#LPX
+//	 * @see net.miginfocom.layout.UnitValue#LPY
 	 * @see #setLogicalPixelBase(int)
 	 */
 	public static final int BASE_REAL_PIXEL = 102;
@@ -174,7 +174,8 @@ public final class PlatformDefaults
 	{
 		switch (plaf) {
 			case WINDOWS_XP:
-				UIManager.put("TabbedPane." + VISUAL_PADDING_PROPERTY, new int[] {1, 0, 1, 2});
+//				UIManager.put("TabbedPane." + VISUAL_PADDING_PROPERTY, new int[]{1, 0, 1, 2});
+				System.err.println("BLAH BLAH BLAH, hopefully this doesn't matter too much");
 				setRelatedGap(LPX7, LPY7);
 				setUnrelatedGap(LPX11, LPY11);
 				setParagraphGap(LPX20, LPY20);
@@ -188,53 +189,54 @@ public final class PlatformDefaults
 				break;
 
 			case MAC_OSX:
-				UIManager.put("Button." + VISUAL_PADDING_PROPERTY, new int[] {3, 6, 5, 6});
-				UIManager.put("Button.icon." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
-				UIManager.put("Button.square." + VISUAL_PADDING_PROPERTY, new int[] {4, 4, 4, 4});
-				UIManager.put("Button.square.icon." + VISUAL_PADDING_PROPERTY, new int[] {4, 4, 4, 4});
-				UIManager.put("Button.gradient." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.gradient.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.bevel." + VISUAL_PADDING_PROPERTY, new int[] {2, 2, 3, 2});
-				UIManager.put("Button.bevel.icon." + VISUAL_PADDING_PROPERTY, new int[] {2, 2, 3, 2});
-				UIManager.put("Button.textured." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
-				UIManager.put("Button.textured.icon." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
-				UIManager.put("Button.roundRect." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.roundRect.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.recessed." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.recessed.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
-				UIManager.put("Button.help." + VISUAL_PADDING_PROPERTY, new int[] {4, 3, 3, 4});
-				UIManager.put("Button.help.icon." + VISUAL_PADDING_PROPERTY, new int[] {4, 3, 3, 4});
-
-				UIManager.put("ComboBox." + VISUAL_PADDING_PROPERTY, new int[] {2, 4, 4, 5});
-				UIManager.put("ComboBox.isPopDown." + VISUAL_PADDING_PROPERTY, new int[] {2, 5, 4, 5});
-				UIManager.put("ComboBox.isSquare." + VISUAL_PADDING_PROPERTY, new int[] {1, 6, 5, 7});
-
-				UIManager.put("ComboBox.editable." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 2});
-				UIManager.put("ComboBox.editable.isSquare." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 1});
-
-				UIManager.put("TextField." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 3});
-				UIManager.put("TabbedPane." + VISUAL_PADDING_PROPERTY, new int[] {4, 8, 11, 8});
-
-				UIManager.put("Spinner." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 1});
-
-				UIManager.put("RadioButton." + VISUAL_PADDING_PROPERTY, new int[] {4, 6, 3, 5});
-				UIManager.put("RadioButton.small." + VISUAL_PADDING_PROPERTY, new int[] {4, 6, 3, 5});
-				UIManager.put("RadioButton.mini." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
-				UIManager.put("CheckBox." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
-				UIManager.put("CheckBox.small." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
-				UIManager.put("CheckBox.mini." + VISUAL_PADDING_PROPERTY, new int[] {6, 7, 3, 5});
-
-				setRelatedGap(LPX7, LPY7);
-				setUnrelatedGap(LPX11, LPY11);
-				setParagraphGap(LPX20, LPY20);
-				setIndentGap(LPX11, LPY11);
-				setGridCellGap(LPX7, LPY7);
-
-				setMinimumButtonWidth(new UnitValue(70, UnitValue.LPX, null));
-				setButtonOrder("L_HE+U+NYBXCOA_R");
-				setDialogInsets(LPY14, LPX20, LPY20, LPX20);
-				setPanelInsets(LPY16, LPX16, LPY16, LPX16);
-				break;
+				throw new UnsupportedOperationException("blah blah blah");
+//				UIManager.put("Button." + VISUAL_PADDING_PROPERTY, new int[] {3, 6, 5, 6});
+//				UIManager.put("Button.icon." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
+//				UIManager.put("Button.square." + VISUAL_PADDING_PROPERTY, new int[] {4, 4, 4, 4});
+//				UIManager.put("Button.square.icon." + VISUAL_PADDING_PROPERTY, new int[] {4, 4, 4, 4});
+//				UIManager.put("Button.gradient." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.gradient.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.bevel." + VISUAL_PADDING_PROPERTY, new int[] {2, 2, 3, 2});
+//				UIManager.put("Button.bevel.icon." + VISUAL_PADDING_PROPERTY, new int[] {2, 2, 3, 2});
+//				UIManager.put("Button.textured." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
+//				UIManager.put("Button.textured.icon." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
+//				UIManager.put("Button.roundRect." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.roundRect.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.recessed." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.recessed.icon." + VISUAL_PADDING_PROPERTY, new int[] {5, 4, 5, 4});
+//				UIManager.put("Button.help." + VISUAL_PADDING_PROPERTY, new int[] {4, 3, 3, 4});
+//				UIManager.put("Button.help.icon." + VISUAL_PADDING_PROPERTY, new int[] {4, 3, 3, 4});
+//
+//				UIManager.put("ComboBox." + VISUAL_PADDING_PROPERTY, new int[] {2, 4, 4, 5});
+//				UIManager.put("ComboBox.isPopDown." + VISUAL_PADDING_PROPERTY, new int[] {2, 5, 4, 5});
+//				UIManager.put("ComboBox.isSquare." + VISUAL_PADDING_PROPERTY, new int[] {1, 6, 5, 7});
+//
+//				UIManager.put("ComboBox.editable." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 2});
+//				UIManager.put("ComboBox.editable.isSquare." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 1});
+//
+//				UIManager.put("TextField." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 3});
+//				UIManager.put("TabbedPane." + VISUAL_PADDING_PROPERTY, new int[] {4, 8, 11, 8});
+//
+//				UIManager.put("Spinner." + VISUAL_PADDING_PROPERTY, new int[] {3, 3, 3, 1});
+//
+//				UIManager.put("RadioButton." + VISUAL_PADDING_PROPERTY, new int[] {4, 6, 3, 5});
+//				UIManager.put("RadioButton.small." + VISUAL_PADDING_PROPERTY, new int[] {4, 6, 3, 5});
+//				UIManager.put("RadioButton.mini." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
+//				UIManager.put("CheckBox." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
+//				UIManager.put("CheckBox.small." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
+//				UIManager.put("CheckBox.mini." + VISUAL_PADDING_PROPERTY, new int[] {6, 7, 3, 5});
+//
+//				setRelatedGap(LPX7, LPY7);
+//				setUnrelatedGap(LPX11, LPY11);
+//				setParagraphGap(LPX20, LPY20);
+//				setIndentGap(LPX11, LPY11);
+//				setGridCellGap(LPX7, LPY7);
+//
+//				setMinimumButtonWidth(new UnitValue(70, UnitValue.LPX, null));
+//				setButtonOrder("L_HE+U+NYBXCOA_R");
+//				setDialogInsets(LPY14, LPX20, LPY20, LPX20);
+//				setPanelInsets(LPY16, LPX16, LPY16, LPX16);
+//				break;
 
 			case GNOME:
 				setRelatedGap(LPX6, LPY6);                    // GNOME HIG 8.2.3
@@ -264,7 +266,8 @@ public final class PlatformDefaults
 				return 96;
 			case MAC_OSX:
 				try {
-					return Toolkit.getDefaultToolkit().getScreenResolution();
+					throw new UnsupportedOperationException("blah");
+//					return Toolkit.getDefaultToolkit().getScreenResolution();
 				} catch (Throwable t) {
 					return 72;
 				}
@@ -700,7 +703,9 @@ public final class PlatformDefaults
 //		if (adjacentComp == null || adjacentSide == SwingConstants.LEFT || adjacentSide == SwingConstants.TOP)
 //			return null;
 
-		return (adjacentSide == SwingConstants.LEFT || adjacentSide == SwingConstants.RIGHT) ? RELATED_X : RELATED_Y;
+		System.err.println("BLA BLHA I'm struggling!!!!!");
+		return RELATED_X ;
+//		return (adjacentSide == SwingConstants.LEFT || adjacentSide == SwingConstants.RIGHT) ? RELATED_X : RELATED_Y;
 	}
 
 	/** Returns the current gap provider or <code>null</code> if none is set and "related" should always be used.
