@@ -47,10 +47,12 @@ public final class SwingContainerWrapper extends SwingComponentWrapper implement
 	/** Debug color for cell outline.
 	 */
 	private static final int DB_CELL_OUTLINE = Color.rgb(255, 0, 0);
+	private final MigGroup migGroup;
 
-	public SwingContainerWrapper(Group c)
+	public SwingContainerWrapper(Elements c)
 	{
 		super(c);
+		this.migGroup = (MigGroup) c ;
 	}
 
 	@Override
@@ -72,8 +74,9 @@ public final class SwingContainerWrapper extends SwingComponentWrapper implement
 	@Override
 	public Object getLayout()
 	{
+		return migGroup._layout ;
 //		return ((Group) getComponent()).;
-		throw new UnsupportedOperationException("tripleplay group doesn't return layout");
+//		throw new UnsupportedOperationException("tripleplay group doesn't return layout");
 	}
 
 	@Override

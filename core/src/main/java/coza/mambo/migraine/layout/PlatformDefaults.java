@@ -175,7 +175,7 @@ public final class PlatformDefaults
 		switch (plaf) {
 			case WINDOWS_XP:
 //				UIManager.put("TabbedPane." + VISUAL_PADDING_PROPERTY, new int[]{1, 0, 1, 2});
-				System.err.println("BLAH BLAH BLAH, hopefully this doesn't matter too much");
+				System.out.println("BLAH BLAH BLAH, Setting platform. hopefully this doesn't matter too much");
 				setRelatedGap(LPX7, LPY7);
 				setUnrelatedGap(LPX11, LPY11);
 				setParagraphGap(LPX20, LPY20);

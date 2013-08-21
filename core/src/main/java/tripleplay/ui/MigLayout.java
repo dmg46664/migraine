@@ -86,14 +86,32 @@ public final class MigLayout extends Layout implements Externalizable
 		this("", "", "");
 	}
 
+	/**
+	 * This should call .preferredSize on all elements as well as using the
+	 * returned values of .preferredSize to calculate the size of this component and
+	 * return.
+	 * @param elems
+	 * @param hintX
+	 * @param hintY
+	 * @return
+	 */
 	@Override
 	public Dimension computeSize(Elements<?> elems, float hintX, float hintY) {
-		return null;  //To change body of implemented methods use File | Settings | File Templates.
+
+		return getSizeImpl(elems, LayoutUtil.PREF);
 	}
 
+	/**
+	 *
+	 * @param elems
+	 * @param left
+	 * @param top
+	 * @param width
+	 * @param height
+	 */
 	@Override
 	public void layout(Elements<?> elems, float left, float top, float width, float height) {
-		//To change body of implemented methods use File | Settings | File Templates.
+		this.layoutContainer(elems);
 	}
 
 	/** Constructor.
@@ -429,7 +447,7 @@ public final class MigLayout extends Layout implements Externalizable
 	/** Check if something has changed and if so recreate it to the cached objects.
 	 * @param parent The parent that is the target for this layout manager.
 	 */
-	private void checkCache(Group parent)
+	private void checkCache(Elements parent)
 	{
 		if (parent == null)
 			return;
@@ -454,10 +472,12 @@ public final class MigLayout extends Layout implements Externalizable
 				int hash = 0;
 				boolean resetLastInvalidOnParent = false; // Added in 3.7.3 to resolve a timing regression introduced in 3.7.1
 				for (ComponentWrapper wrapper : ccMap.keySet()) {
-					Object component = wrapper.getComponent();
+					Element component = (Element) wrapper.getComponent();
 					//TODO doesn't support dynamically adjustable area.
 //					if (component instanceof JTextArea || component instanceof JEditorPane)
 //						resetLastInvalidOnParent = true;
+
+					component.preferredSize(0,0);//TODO, right arguments?
 
 					hash ^= wrapper.getLayoutHashCode();
 					hash += 285134905;
@@ -498,12 +518,14 @@ public final class MigLayout extends Layout implements Externalizable
 	 * @param parent The parent to compare ccMap against. Never null.
 	 */
 	HashSet<Element> parentCompSet = new HashSet<Element>() ;
-	private void cleanConstraintMaps(Group parent)
+	private void cleanConstraintMaps(Elements parent)
 	{
 		parentCompSet.clear();
-		for(Element element : parent._children)
+		for(int i = 0 ; i < parent._children.size(); i++)
+		{
+			Element element = parent.childAt(i);
 			parentCompSet.add(element);
-
+		}
 		Iterator<Map.Entry<ComponentWrapper, CC>> it = ccMap.entrySet().iterator();
 		while(it.hasNext()) {
 			Element c = (Element) it.next().getKey().getComponent();
@@ -517,7 +539,7 @@ public final class MigLayout extends Layout implements Externalizable
 	/**
 	 * @since 3.7.3
 	 */
-	private void resetLastInvalidOnParent(Group parent)
+	private void resetLastInvalidOnParent(Elements parent)
 	{
 		while (parent != null) {
 			Layout layoutManager = parent._layout;
@@ -528,7 +550,7 @@ public final class MigLayout extends Layout implements Externalizable
 		}
 	}
 
-	private ContainerWrapper checkParent(Group parent)
+	private ContainerWrapper checkParent(Elements parent)
 	{
 		if (parent == null)
 			return null;
@@ -542,7 +564,7 @@ public final class MigLayout extends Layout implements Externalizable
 	private long lastSize = 0;
 
 
-	public void layoutContainer(final Group parent)
+	public void layoutContainer(final Elements parent)
 	{
 		//TODO getting rid of the syncs makes me nervous...
 //		synchronized(parent.getTreeLock()) {
@@ -727,7 +749,7 @@ public final class MigLayout extends Layout implements Externalizable
 	}
 
 	// Implementation method that does the job.
-	private Dimension getSizeImpl(Group parent, int sizeType)
+	private Dimension getSizeImpl(Elements parent, int sizeType)
 	{
 		checkCache(parent);
 
