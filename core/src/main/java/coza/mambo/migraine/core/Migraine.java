@@ -5,6 +5,7 @@ import static playn.core.PlayN.*;
 import playn.core.*;
 import playn.core.util.Clock;
 import pythagoras.f.Dimension;
+import react.UnitSlot;
 import tripleplay.ui.*;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
@@ -15,12 +16,16 @@ public class Migraine extends Game.Default {
 
 	private final static int UPDATE_RATE = 33;
 	private final Clock.Source clock = new Clock.Source(UPDATE_RATE);
+	private Route route;
 
 	public Migraine() {
 		super(UPDATE_RATE); // call update every 33ms (30 times per second)
 	}
 
 
+	enum Route {
+		TRIPLEPLAY, MIGLAYOUT, MIGRAINE
+	};
 
 
 	@Override
@@ -37,26 +42,73 @@ public class Migraine extends Game.Default {
 		GroupLayer layer = graphics().createGroupLayer();
 		iface = new Interface(); //used to take in delegate as argument
 		Stylesheet sheet = SimpleStyles.newSheet();
-		Root root = iface.createRoot(AxisLayout.vertical().gap(5), sheet);
+		final Root root = iface.createRoot(AxisLayout.vertical().gap(5), sheet);
 		layer.add(root.layer);
 		root.addStyles(Style.HALIGN.left);
 
-		boolean useMig = true ;
+		route = Route.MIGRAINE;
 
-		if(useMig)
+		if (route == Route.MIGRAINE)
+		{
+
+			final MigLayout layout = new MigLayout("", "[]40[]40[]");
+			final MigLayout layout2 = new MigLayout("", "[]60[]60[]");
+			final MigGroup migGroup = new MigGroup(layout);
+			root.add(migGroup);
+			final String e = "";
+
+			Button buttons[] = new Button[5];
+			buttons[0] = new Button("A");
+			buttons[1] = new Button("B");
+			buttons[2] = new Button("C");
+			buttons[3] = new Button("D");
+			buttons[4] = new Button("E");
+
+			String colrow[] = new String[5];
+			colrow[0] = "cell 0 0";
+			colrow[1] = "cell 1 0";
+			colrow[2] = "cell 2 0";
+			colrow[3] = "cell 0 1";
+			colrow[4] = "cell 1 1";
+
+			UnitSlot slot = new UnitSlot() {
+				@Override
+				public void onEmit() {
+					if (migGroup.getCurrentLayout() == layout)
+						migGroup.setCurrentLayout(layout2);
+					else
+						migGroup.setCurrentLayout(layout);
+
+					root.pack();
+					migGroup.makeInvalid();
+				}
+			};
+
+			for(int i = 0 ; i < 5 ; i++)
+			{
+				migGroup.add(buttons[i], colrow[i]);
+				layout2.addLayoutComponent(buttons[i], colrow[i]);
+
+				buttons[i].clicked().connect(slot) ;
+			}
+
+			migGroup.addLayout(layout2);
+
+		}
+		else if(route == Route.MIGLAYOUT)
 		{
 
 			MigGroup migraineButtons;
-			MigLayout layout = new MigLayout();
+			MigLayout layout = new MigLayout("", "[]40[]40[]");
 			root.add(migraineButtons = new MigGroup(layout));
 			final String e = "";
 			migraineButtons.add(new Button("A"), e);
-			migraineButtons.add(new Button("B"), e);
+			migraineButtons.add(new Button("BC"), e);
 			migraineButtons.add(new Button("C"), "wrap");
-			migraineButtons.add(new Button("D"), e);
+			migraineButtons.add(new Button("DEF"), e);
 			migraineButtons.add(new Button("E"), e);
 		}
-		else
+		else //tripleplay
 		{
 			Group group = new Group(new AxisLayout.Horizontal());
 			root.add(group);

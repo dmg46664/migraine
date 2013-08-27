@@ -86,6 +86,7 @@ public final class MigLayout extends Layout implements Externalizable
 		this("", "", "");
 	}
 
+
 	/**
 	 * This should call .preferredSize on all elements as well as using the
 	 * returned values of .preferredSize to calculate the size of this component and
@@ -570,6 +571,7 @@ public final class MigLayout extends Layout implements Externalizable
 //		synchronized(parent.getTreeLock()) {
 			checkCache(parent);
 
+
 			Insets i = parent._ldata.bg.insets;
 
 			int[] b = new int[] {
@@ -771,13 +773,9 @@ public final class MigLayout extends Layout implements Externalizable
 		return lc != null && lc.getAlignY() != null ? lc.getAlignY().getPixels(1, checkParent(parent), null) : 0;
 	}
 
-	public void addLayoutComponent(String s, Element comp)
-	{
-		addLayoutComponent(comp, s);
-	}
-
 	public void addLayoutComponent(Element comp, Object constraints)
 	{
+
 		//TODO sync
 //		synchronized(comp.getParent().getTreeLock()) {
 			setComponentConstraintsImpl(comp, constraints, true);
