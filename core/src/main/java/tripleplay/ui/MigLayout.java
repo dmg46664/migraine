@@ -35,7 +35,6 @@ package tripleplay.ui;
 
 import coza.mambo.migraine.layout.*;
 import pythagoras.f.Dimension;
-import pythagoras.f.Rectangle;
 import tripleplay.ui.util.Insets;
 
 //import javax.swing.*;
@@ -87,7 +86,7 @@ public final class MigLayout extends Layout implements Externalizable
 	}
 
 	public ComponentWrapper createNewComponentWrapper(Element<?> element) {
-		SwingComponentWrapper component = new SwingComponentWrapper(element, this);
+		TPComponentWrapper component = new TPComponentWrapper(element, this);
 		if(!this.copyCacheMap.containsKey(element))
 			this.copyCacheMap.put(element, new CopyCache());
 		return component;
@@ -588,7 +587,7 @@ public final class MigLayout extends Layout implements Externalizable
 			return null;
 
 		if (cacheParentW == null || cacheParentW.getComponent() != parent)
-			cacheParentW = new SwingContainerWrapper(parent);
+			cacheParentW = new TPContainerWrapper(parent);
 
 		return cacheParentW;
 	}
@@ -818,7 +817,7 @@ public final class MigLayout extends Layout implements Externalizable
 		//TODO more nervousnous
 //		synchronized(comp.parent().getTreeLock()) {
 			scrConstrMap.remove(comp);
-			ccMap.remove(new SwingComponentWrapper(comp));
+			ccMap.remove(new TPComponentWrapper(comp));
 			grid = null; // To clear references
 //		}
 	}

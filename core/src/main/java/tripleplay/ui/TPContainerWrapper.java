@@ -42,14 +42,14 @@ import playn.core.Color;
 
 /**
  */
-public final class SwingContainerWrapper extends SwingComponentWrapper implements ContainerWrapper
+public final class TPContainerWrapper extends TPComponentWrapper implements ContainerWrapper
 {
 	/** Debug color for cell outline.
 	 */
 	private static final int DB_CELL_OUTLINE = Color.rgb(255, 0, 0);
 	private final MigGroup migGroup;
 
-	public SwingContainerWrapper(Elements c)
+	public TPContainerWrapper(Elements c)
 	{
 		super(c);
 		this.migGroup = (MigGroup) c ;

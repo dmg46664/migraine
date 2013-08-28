@@ -43,13 +43,11 @@ import pythagoras.f.*;
 import pythagoras.f.Rectangle;
 
 //import javax.ui.*;
-import javax.swing.border.Border;
-import javax.swing.text.JTextComponent;
-import java.util.IdentityHashMap;
+
 
 /**
  */
-public class SwingComponentWrapper implements ComponentWrapper
+public class TPComponentWrapper implements ComponentWrapper
 {
 	private static boolean maxSet = false;
 
@@ -74,13 +72,13 @@ public class SwingComponentWrapper implements ComponentWrapper
 //	private Component oldC ;
 
 	//argument was Component
-	public SwingComponentWrapper(Element c)
+	public TPComponentWrapper(Element c)
 	{
 		this.c = c;
 	}
 
 	//MigLayout link constructor
-	public SwingComponentWrapper(Element c, MigLayout migLayout)
+	public TPComponentWrapper(Element c, MigLayout migLayout)
 	{
 		this.c = c;
 		this.migLayout = migLayout;
@@ -295,7 +293,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 		Group p = null ;
 		if (c.parent() instanceof Group)
 			p = (Group) c.parent() ;
-		return p != null ? new SwingContainerWrapper(p) : null;
+		return p != null ? new TPContainerWrapper(p) : null;
 	}
 
 	@Override
