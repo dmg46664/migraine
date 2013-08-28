@@ -50,14 +50,13 @@ public class Migraine extends Game.Default {
 
 		if (route == Route.MIGRAINE)
 		{
-
 			final MigLayout layout = new MigLayout("", "[]40[]40[]");
 			final MigLayout layout2 = new MigLayout("", "[]60[]60[]");
 			final MigGroup migGroup = new MigGroup(layout);
 			root.add(migGroup);
 			final String e = "";
 
-			Button buttons[] = new Button[5];
+			final Button buttons[] = new Button[5];
 			buttons[0] = new Button("A");
 			buttons[1] = new Button("B");
 			buttons[2] = new Button("C");
@@ -71,7 +70,16 @@ public class Migraine extends Game.Default {
 			colrow[3] = "cell 0 1";
 			colrow[4] = "cell 1 1";
 
-			UnitSlot slot = new UnitSlot() {
+
+
+			class ButtonUnitSlot extends UnitSlot
+			{
+				int id ;
+
+				public ButtonUnitSlot(int id)
+				{
+					this.id = id;
+				}
 				@Override
 				public void onEmit() {
 					if (migGroup.getCurrentLayout() == layout)
@@ -79,17 +87,20 @@ public class Migraine extends Game.Default {
 					else
 						migGroup.setCurrentLayout(layout);
 
+					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
+
 					root.pack();
 					migGroup.makeInvalid();
 				}
 			};
+
 
 			for(int i = 0 ; i < 5 ; i++)
 			{
 				migGroup.add(buttons[i], colrow[i]);
 				layout2.addLayoutComponent(buttons[i], colrow[i]);
 
-				buttons[i].clicked().connect(slot) ;
+				buttons[i].clicked().connect(new ButtonUnitSlot(i)) ;
 			}
 
 			migGroup.addLayout(layout2);

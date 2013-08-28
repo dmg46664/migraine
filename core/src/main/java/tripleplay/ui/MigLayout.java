@@ -79,6 +79,37 @@ public final class MigLayout extends Layout implements Externalizable
 
 	private transient boolean dirty = true;
 
+	public CopyCache getCopyCache(Element c) {
+		CopyCache cc = copyCacheMap.get(c);
+		if(c != null && c._preferredSize != null)
+			cc._preferredSize = c._preferredSize;
+		return cc;
+	}
+
+	public ComponentWrapper createNewComponentWrapper(Element<?> element) {
+		SwingComponentWrapper component = new SwingComponentWrapper(element, this);
+		if(!this.copyCacheMap.containsKey(element))
+			this.copyCacheMap.put(element, new CopyCache());
+		return component;
+	}
+
+	public Map<Element, CopyCache> getCopyCacheMap() {
+		return copyCacheMap;
+	}
+
+	protected class CopyCache
+	{
+		public Dimension _preferredSize;
+
+		public void update(Element c){
+			if(c != null && c._preferredSize != null)
+				this._preferredSize = c._preferredSize;
+		}
+	}
+
+//	private final CopyCache copyCache = new CopyCache();
+	private Map<Element, CopyCache> copyCacheMap = new HashMap<Element, CopyCache>();
+
 	/** Constructor with no constraints.
 	 */
 	public MigLayout()
@@ -327,7 +358,7 @@ public final class MigLayout extends Layout implements Externalizable
 			if (noCheck == false && scrConstrMap.containsKey(comp) == false)
 				throw new IllegalArgumentException("Component must already be added to parent!");
 
-			ComponentWrapper cw = new SwingComponentWrapper(comp);
+			ComponentWrapper cw = createNewComponentWrapper(comp);
 
 			if (constr == null || constr instanceof String) {
 				String cStr = ConstraintParser.prepare((String) constr);

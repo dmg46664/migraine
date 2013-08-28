@@ -36,6 +36,7 @@ package tripleplay.ui;
 import coza.mambo.migraine.layout.ComponentWrapper;
 import coza.mambo.migraine.layout.ContainerWrapper;
 import coza.mambo.migraine.layout.PlatformDefaults;
+import tripleplay.ui.MigLayout.CopyCache;
 import playn.core.Color;
 import playn.core.PlayN;
 import pythagoras.f.*;
@@ -68,6 +69,7 @@ public class SwingComponentWrapper implements ComponentWrapper
 	private int compType = TYPE_UNSET;
 	private Boolean bl = null;
 	private boolean prefCalled = false;
+	private MigLayout migLayout;
 
 //	private Component oldC ;
 
@@ -75,6 +77,13 @@ public class SwingComponentWrapper implements ComponentWrapper
 	public SwingComponentWrapper(Element c)
 	{
 		this.c = c;
+	}
+
+	//MigLayout link constructor
+	public SwingComponentWrapper(Element c, MigLayout migLayout)
+	{
+		this.c = c;
+		this.migLayout = migLayout;
 	}
 
 	//see documentation in parent
@@ -225,7 +234,10 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getPreferredHeight(int sz)
 	{
-		return Math.round(c._preferredSize.height) ;
+		CopyCache copyCache = this.getCopyCache(c);
+		return Math.round(copyCache._preferredSize.height) ;
+//		return Math.round(c._preferredSize.height) ;
+
 //		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
 //		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
 //			c.setBounds(c.getX(), c.getY(), sz, 1);
@@ -236,12 +248,19 @@ public class SwingComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getPreferredWidth(int sz)
 	{
-		return Math.round(c._preferredSize.width) ;
+		CopyCache copyCache = this.getCopyCache(c);
+		return Math.round(copyCache._preferredSize.width) ;
+//		return Math.round(c._preferredSize.width) ;
+
 //		// If the component has not gotten size yet and there is a size hint, trick Swing to return a better height.
 //		if (c.getWidth() == 0 && c.getHeight() == 0 && sz != -1)
 //			c.setBounds(c.getX(), c.getY(), 1, sz);
 //
 //		return c.getPreferredSize().width;
+	}
+
+	private CopyCache getCopyCache(Element c) {
+		return this.migLayout.getCopyCache(c);
 	}
 
 	@Override
@@ -690,4 +709,6 @@ public class SwingComponentWrapper implements ComponentWrapper
 
 		return getComponent().equals(((ComponentWrapper) o).getComponent());
 	}
+
+
 }

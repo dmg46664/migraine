@@ -703,7 +703,7 @@ public final class PlatformDefaults
 //		if (adjacentComp == null || adjacentSide == SwingConstants.LEFT || adjacentSide == SwingConstants.TOP)
 //			return null;
 
-		System.err.println("BLA BLHA I'm struggling!!!!!");
+//		System.err.println("BLA BLHA I'm struggling!!!!!");
 		return RELATED_X ;
 //		return (adjacentSide == SwingConstants.LEFT || adjacentSide == SwingConstants.RIGHT) ? RELATED_X : RELATED_Y;
 	}

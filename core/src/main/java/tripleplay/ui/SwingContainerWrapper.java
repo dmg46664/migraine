@@ -61,7 +61,9 @@ public final class SwingContainerWrapper extends SwingComponentWrapper implement
 		Group c = (Group) getComponent();
 		ComponentWrapper[] cws = new ComponentWrapper[c.childCount()];
 		for (int i = 0; i < cws.length; i++)
-			cws[i] = new SwingComponentWrapper(c.childAt(i));
+		{
+			cws[i] = this.migGroup.getCurrentLayout().createNewComponentWrapper(c.childAt(i)) ;
+		}
 		return cws;
 	}
 
