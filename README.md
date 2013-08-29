@@ -1,7 +1,7 @@
 migraine
 ========
 
-Migraine is a MigLayout derived library for providing additional layout options for TriplePlay widgets.
+Migraine is a MigLayout derived library for providing additional layout options for TriplePlay widgets. See here for [pretty complete documentation on the bells and whistles of MigLayout](http://www.miglayout.com/QuickStart.pdf).
 
 ## Reason for being
 
