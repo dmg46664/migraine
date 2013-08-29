@@ -1,9 +1,11 @@
 package tripleplay.ui;
 
 import pythagoras.f.Dimension;
+import pythagoras.f.Vector;
+import tripleplay.anim.Animation;
+import tripleplay.anim.Animator;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * User: Daniel
@@ -46,6 +48,69 @@ public class MigGroup extends Group {
 	public void makeInvalid()
 	{
 		this.invalidate();
+	}
+
+	public Animator getAnimator()
+	{
+		return this.root().iface().animator();
+	}
+
+	public void animateToNewLayout(MigLayout layout) {
+		//record all positions of the elements of the layout
+		//set the new layout
+		//trigger the actual layout of the new layout
+		//pop an Animation onto the Animator in order to tween
+		setCurrentLayout(layout);
+	}
+
+	class Switch extends Animation
+	{
+		Map<Element, pythagoras.f.Vector> vecMap = new HashMap<Element, Vector>();
+
+		public Switch(MigLayout startLyt, MigLayout destinationLyt)
+		{
+			//calculate list of diff-vectors
+			Set<Element> keySet = startLyt.getCopyCacheMap().keySet();
+			Map<Element, MigLayout.CopyCache> startMap = startLyt.getCopyCacheMap();
+			Map<Element, MigLayout.CopyCache> destMap = destinationLyt.getCopyCacheMap();
+			for(Element e : keySet)
+			{
+				MigLayout.CopyCache startCC = startMap.get(e);
+				MigLayout.CopyCache destCC = destMap.get(e);
+//				e.x()
+//				Vector vec = new Vector(startCC._preferredSize.)
+//				vecMap.put(e, )
+			}
+		}
+
+		private float _position = 0;
+		float lastTime = 0;
+		/** milliseconds */
+		public float startTime = 0 ;
+		public float duration = 2000;
+
+		@Override
+		protected float apply(float time)
+		{
+			if (lastTime == 0)
+				lastTime = time - startTime; //start position at the beginning
+
+//			_movie.paint(time - lastTime); TODO: Do Translation
+			lastTime = time ;
+
+			if (_position > duration)//finish
+			{
+				reset();
+				return 0;
+			}
+
+			return duration - _position ;
+		}
+
+		private void reset() {
+			lastTime = 0;
+			_position = 0;
+		}
 	}
 
 //

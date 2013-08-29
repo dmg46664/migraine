@@ -6,6 +6,7 @@ import playn.core.*;
 import playn.core.util.Clock;
 import pythagoras.f.Dimension;
 import react.UnitSlot;
+import tripleplay.anim.Animation;
 import tripleplay.ui.*;
 import tripleplay.ui.layout.AxisLayout;
 import tripleplay.ui.layout.FlowLayout;
@@ -83,11 +84,11 @@ public class Migraine extends Game.Default {
 				@Override
 				public void onEmit() {
 					if (migGroup.getCurrentLayout() == layout)
-						migGroup.setCurrentLayout(layout2);
+						migGroup.animateToNewLayout(layout2);
 					else
-						migGroup.setCurrentLayout(layout);
+						migGroup.animateToNewLayout(layout);
 
-					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
+//					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
 
 					root.pack();
 					migGroup.makeInvalid();

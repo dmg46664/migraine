@@ -96,6 +96,11 @@ public final class MigLayout extends Layout implements Externalizable
 		return copyCacheMap;
 	}
 
+	/**
+	 * The reason CopyCache wraps _preferedSize is
+	 * because we weren't sure whether there were
+	 * other variables to wrap.
+	 */
 	protected class CopyCache
 	{
 		public Dimension _preferredSize;

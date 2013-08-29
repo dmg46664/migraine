@@ -66,9 +66,12 @@ Migraine is an attempt to bolt the very capable layout manager MigLayout onto th
 
 
 
-## Usage and Limitations
+## Usage, Implentation and Limitations Details
 
 * It can be used as a simple MigLayout wrapper, or in it's more complex form. See above.
 * Put main classes in tripleplay.ui on account of Element._preferredSize,_size,setSize(),setLocation() all being protected.
 * Commented out all synchronized(comp.parent().getTreeLock()) in original wrapper as wasnt' sure what to block on in tripleplay.
-
+* Added the class CopyCache which hackily copies the Element._prefferedSize in case switching layouts removes this
+and it is needed by the new layout. An instance of CopyCache is managed by each layout separately. This is actually a
+ necessary requirement of Migraine.
+* Overrid Element.setSize() in MigGroup to hackily prevent setBounds() from running undesirably for our uses.
