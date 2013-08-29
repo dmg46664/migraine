@@ -4,12 +4,9 @@ import static playn.core.PlayN.*;
 
 import playn.core.*;
 import playn.core.util.Clock;
-import pythagoras.f.Dimension;
 import react.UnitSlot;
-import tripleplay.anim.Animation;
 import tripleplay.ui.*;
 import tripleplay.ui.layout.AxisLayout;
-import tripleplay.ui.layout.FlowLayout;
 
 public class Migraine extends Game.Default {
 
@@ -47,7 +44,14 @@ public class Migraine extends Game.Default {
 		layer.add(root.layer);
 		root.addStyles(Style.HALIGN.left);
 
+
+
+		/*===================================*/
+		//change this enum to see the Miglayout vs migraine examples.
+		/*===================================*/
 		route = Route.MIGRAINE;
+
+
 
 		if (route == Route.MIGRAINE)
 		{
@@ -58,11 +62,11 @@ public class Migraine extends Game.Default {
 			final String e = "";
 
 			final Button buttons[] = new Button[5];
-			buttons[0] = new MigButton("A");
-			buttons[1] = new MigButton("B");
-			buttons[2] = new MigButton("C");
-			buttons[3] = new MigButton("D");
-			buttons[4] = new MigButton("E");
+			buttons[0] = new Button("A");
+			buttons[1] = new Button("B");
+			buttons[2] = new Button("C");
+			buttons[3] = new Button("D");
+			buttons[4] = new Button("E");
 
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";
@@ -109,7 +113,6 @@ public class Migraine extends Game.Default {
 		}
 		else if(route == Route.MIGLAYOUT)
 		{
-
 			MigGroup migraineButtons;
 			MigLayout layout = new MigLayout("", "[]40[]40[]");
 			root.add(migraineButtons = new MigGroup(layout));
