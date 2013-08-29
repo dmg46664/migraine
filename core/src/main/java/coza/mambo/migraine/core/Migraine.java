@@ -58,11 +58,11 @@ public class Migraine extends Game.Default {
 			final String e = "";
 
 			final Button buttons[] = new Button[5];
-			buttons[0] = new Button("A");
-			buttons[1] = new Button("B");
-			buttons[2] = new Button("C");
-			buttons[3] = new Button("D");
-			buttons[4] = new Button("E");
+			buttons[0] = new MigButton("A");
+			buttons[1] = new MigButton("B");
+			buttons[2] = new MigButton("C");
+			buttons[3] = new MigButton("D");
+			buttons[4] = new MigButton("E");
 
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";

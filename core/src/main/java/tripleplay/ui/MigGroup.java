@@ -1,6 +1,7 @@
 package tripleplay.ui;
 
 import pythagoras.f.Dimension;
+import pythagoras.f.Point;
 import pythagoras.f.Vector;
 import tripleplay.anim.Animation;
 import tripleplay.anim.Animator;
@@ -55,19 +56,33 @@ public class MigGroup extends Group {
 		return this.root().iface().animator();
 	}
 
-	public void animateToNewLayout(MigLayout layout) {
-		//record all positions of the elements of the layout
-		//set the new layout
-		//trigger the actual layout of the new layout
-		//pop an Animation onto the Animator in order to tween
+	public void animateToNewLayout(final MigLayout layout) {
+		MigLayout oldLayout = getCurrentLayout();
 		setCurrentLayout(layout);
+		this.preferredSize(0,0);
+		this.validate();
+		SwitchAnim switchAnim = new SwitchAnim(oldLayout, layout);
+		getAnimator().add(switchAnim).then().action(new Runnable() {
+			@Override
+			public void run() {
+//				setCurrentLayout(layout);
+//				MigGroup.this.invalidate();
+//				MigGroup.this.preferredSize(0,0);
+//				MigGroup.this.validate();
+			}
+		});
+		//moving the layout back
+		setCurrentLayout(oldLayout);
+		this.preferredSize(0,0);
+		this.validate();
 	}
 
-	class Switch extends Animation
+	class SwitchAnim extends Animation
 	{
 		Map<Element, pythagoras.f.Vector> vecMap = new HashMap<Element, Vector>();
+		Map<Element, Point> elPointMap = new HashMap<Element, Point>();
 
-		public Switch(MigLayout startLyt, MigLayout destinationLyt)
+		public SwitchAnim(MigLayout startLyt, MigLayout destinationLyt)
 		{
 			//calculate list of diff-vectors
 			Set<Element> keySet = startLyt.getCopyCacheMap().keySet();
@@ -77,57 +92,44 @@ public class MigGroup extends Group {
 			{
 				MigLayout.CopyCache startCC = startMap.get(e);
 				MigLayout.CopyCache destCC = destMap.get(e);
-//				e.x()
-//				Vector vec = new Vector(startCC._preferredSize.)
-//				vecMap.put(e, )
+				Vector vec = new Vector(destCC.x - startCC.x, destCC.y - startCC.y);
+				vecMap.put(e, vec);
+				elPointMap.put(e, new Point(startCC.x, startCC.y));
 			}
 		}
 
-		private float _position = 0;
 		float lastTime = 0;
 		/** milliseconds */
-		public float startTime = 0 ;
-		public float duration = 2000;
+		public float duration = 400;
+		public float timeElapsed = -1;
 
 		@Override
 		protected float apply(float time)
 		{
-			if (lastTime == 0)
-				lastTime = time - startTime; //start position at the beginning
-
-//			_movie.paint(time - lastTime); TODO: Do Translation
-			lastTime = time ;
-
-			if (_position > duration)//finish
+			if(timeElapsed == -1)
 			{
-				reset();
-				return 0;
+//				start();
+				lastTime = time;
+				timeElapsed = 0;
+			}
+			float deltaTime = time - lastTime;
+			lastTime = time;
+			timeElapsed += deltaTime;
+
+			for(Element e : vecMap.keySet())
+			{
+				Vector vec = vecMap.get(e);
+				float deltaTimePercent = deltaTime / duration;
+
+				Point elP = elPointMap.get(e);
+				elP.x += vec.x * deltaTimePercent;
+				elP.y += vec.y * deltaTimePercent;
+				e.setLocation(elP.x, elP.y);
 			}
 
-			return duration - _position ;
-		}
-
-		private void reset() {
-			lastTime = 0;
-			_position = 0;
+			return duration - timeElapsed;
 		}
 	}
-
-//
-//	@Override protected LayoutData createLayoutData (float hintX, float hintY) {
-//		return new ElementsLayoutData();
-//	}
-
-//	protected class ElementsLayoutData extends LayoutData {
-//
-//
-//		@Override public void layout (float left, float top, float width, float height) {
-//			// layout our children
-//			_layout.layout(Elements.this, left, top, width, height);
-//			// layout is only called as part of revalidation, so now we validate our children
-//			for (Element<?> child : _children) child.validate();
-//		}
-//	}
 
 	/* In triple play there is a difference between a particular layout policy (Layout)
 		which is a set of constraints... and LayoutData, which is an *instantiation* of that policy.

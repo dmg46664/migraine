@@ -104,10 +104,17 @@ public final class MigLayout extends Layout implements Externalizable
 	protected class CopyCache
 	{
 		public Dimension _preferredSize;
+		public int x;
+		public int y;
 
 		public void update(Element c){
 			if(c != null && c._preferredSize != null)
 				this._preferredSize = c._preferredSize;
+		}
+
+		public void setLocation(int x, int y) {
+			this.x = x;
+			this.y = y;
 		}
 	}
 

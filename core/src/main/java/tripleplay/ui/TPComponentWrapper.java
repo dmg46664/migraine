@@ -369,7 +369,9 @@ public class TPComponentWrapper implements ComponentWrapper
 	@Override
 	public final void setBounds(int x, int y, int width, int height)
 	{
-		c.setLocation(MathUtil.ifloor(x),y);
+		int ifloorx = MathUtil.ifloor(x);
+		c.setLocation(ifloorx,y);
+		getCopyCache(c).setLocation(ifloorx,y);
 		c.setSize(width, height);
 
 	}
