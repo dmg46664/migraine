@@ -75,7 +75,12 @@ public class Migraine extends Game.Default {
 			colrow[3] = "cell 0 1";
 			colrow[4] = "cell 1 1";
 
-
+			int[] colours = new int[5];
+			colours[0] = Color.rgb(255, 0, 255);
+			colours[1] = Color.rgb(255, 255, 0);
+			colours[2] = Color.rgb(0, 255, 255);
+			colours[3] = Color.rgb(255, 100, 100);
+			colours[4] = Color.rgb(0, 100, 100);
 
 			class ButtonUnitSlot extends UnitSlot
 			{
@@ -99,6 +104,8 @@ public class Migraine extends Game.Default {
 				}
 			};
 
+//			Styles styles4button = Button
+//			new Button()
 
 			for(int i = 0 ; i < 5 ; i++)
 			{
@@ -106,6 +113,7 @@ public class Migraine extends Game.Default {
 				layout2.addLayoutComponent(buttons[i], colrow[i]);
 
 				buttons[i].clicked().connect(new ButtonUnitSlot(i)) ;
+				setStyle(buttons[i], colours[i]);
 			}
 
 			migGroup.addLayout(layout2);
@@ -132,10 +140,18 @@ public class Migraine extends Game.Default {
 			group.add(new Button("C"));
 		}
 
-
 		PlayN.graphics().rootLayer().add(layer);
 //		root.pack(400, 100) ;
 		root.pack();
+	}
+
+	public void setStyle(Button button, int bgColor)
+	{
+		int ulColor = 0xFFEEEEEE, brColor = 0xFFAAAAAA;
+		Background butBg = Background.roundRect(bgColor, 5, ulColor, 2).inset(5, 6, 2, 6);
+		Background butSelBg = Background.roundRect(bgColor, 5, brColor, 2).inset(6, 5, 1, 7);
+		button.addStyles(Styles.make(Style.BACKGROUND.is(butBg))
+				.addSelected(Style.BACKGROUND.is(butSelBg)));
 	}
 
 	@Override

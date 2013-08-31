@@ -191,27 +191,25 @@ public class MigGroup extends Group {
 		return this;
 	}
 
-	/**
-	 * overriding so that we don't call clearLayoutData...
-	 * @param width
-	 * @param height
-	 * @return
-	 */
-	@Override
-	protected MigGroup setSize (float width, float height) {
-		boolean changed = _size.width != width || _size.height != height;
-		_size.setSize(width, height);
-		// if we have a cached preferred size and this size differs from it, we need to clear our
-		// layout data as it may contain computations specific to our preferred size
-
-		//TODO so this is really hacky, unforetold consequences. Waiting for someone to beat me with a stick.
-
-		if (_preferredSize != null && !_size.equals(_preferredSize))
-		{
-			clearLayoutData();
-		}
-
-		if (changed) invalidate();
-		return this;
-	}
+//	/**
+//	 * overriding so that we don't call clearLayoutData...
+//	 * @param width
+//	 * @param height
+//	 * @return
+//	 */
+//	@Override
+//	protected MigGroup setSize (float width, float height) {
+//		boolean changed = _size.width != width || _size.height != height;
+//		_size.setSize(width, height);
+//		// if we have a cached preferred size and this size differs from it, we need to clear our
+//		// layout data as it may contain computations specific to our preferred size
+//
+//		if (_preferredSize != null && !_size.equals(_preferredSize))
+//		{
+//			clearLayoutData();
+//		}
+//
+//		if (changed) invalidate();
+//		return this;
+//	}
 }
