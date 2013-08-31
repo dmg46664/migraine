@@ -148,10 +148,17 @@ public class Migraine extends Game.Default {
 	public void setStyle(Button button, int bgColor)
 	{
 		int ulColor = 0xFFEEEEEE, brColor = 0xFFAAAAAA;
-		Background butBg = Background.roundRect(bgColor, 5, ulColor, 2).inset(5, 6, 2, 6);
+		Background butBg = Background.roundRect(bgColor, 5, ulColor, 2).inset(5, 6, 1, 6);
 		Background butSelBg = Background.roundRect(bgColor, 5, brColor, 2).inset(6, 5, 1, 7);
 		button.addStyles(Styles.make(Style.BACKGROUND.is(butBg))
-				.addSelected(Style.BACKGROUND.is(butSelBg)));
+				.addSelected(Style.BACKGROUND.is(butSelBg))
+				.add(Style.COLOR.is(0xFFFFFFFF))
+				.add(Style.FONT.is(PlayN.graphics().createFont("Aharoni", Font.Style.PLAIN, 75)))
+				.add(Style.TEXT_EFFECT.shadow)
+				.add(Style.SHADOW.is(0x20000000)).add(Style.SHADOW_X.is(1f)).add(Style.SHADOW_Y.is(1f))
+				.add(Style.VALIGN.center));
+
+		;
 	}
 
 	@Override
