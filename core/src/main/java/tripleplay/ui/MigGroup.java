@@ -44,8 +44,18 @@ public class MigGroup extends Group {
 
 	public void setCurrentLayout(MigLayout currentLayout) {
 		this.layout = currentLayout;
+
+		//make sure you call invalidate BEFORE you call root.pack
+		//(if root.pack is needed at all presumably for changing the
+		// size of the layout to catch clicks for all sub elements)
+		//because otherwise when calculating the Elements above
+		//MigGroup root.pack() would have already calculated
+		//the _ldata's which might have cached sizes of MigGroup
+		//which will then conflict with the this._preferredSize during
+		//layout phase.
+
+		this.invalidate();
 		this.root().pack();
-		this.invalidate(); //TODO is this needed?
 	}
 
 	public void makeInvalid()
@@ -102,7 +112,7 @@ public class MigGroup extends Group {
 
 		float lastTime = 0;
 		/** milliseconds */
-		public float duration = 400;
+		public float duration = 200;
 		public float timeElapsed = -1;
 
 		@Override

@@ -59,7 +59,7 @@ public class Migraine extends Game.Default {
 		if (route == Route.MIGRAINE)
 		{
 			final MigLayout layout = new MigLayout("", "[]40[]40[]");
-			final MigLayout layout2 = new MigLayout("", "[]60[]60[]");
+			final MigLayout layout2 = new MigLayout("", "[]200[]200[]", "[]200[]");
 			final MigGroup migGroup = new MigGroup(layout);
 			root.add(migGroup);
 			final String e = "";
@@ -74,8 +74,8 @@ public class Migraine extends Game.Default {
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";
 			colrow[1] = "cell 1 0";
-			colrow[3] = "cell 2 0";
-			colrow[2] = "cell 0 1";
+			colrow[2] = "cell 2 0";
+			colrow[3] = "cell 0 1";
 			colrow[4] = "cell 1 1";
 
 			int[] colours = new int[5];
