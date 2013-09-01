@@ -2,6 +2,7 @@ package coza.mambo.migraine.core;
 
 import static playn.core.PlayN.*;
 
+import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import playn.core.*;
 import playn.core.util.Clock;
 import react.UnitSlot;
@@ -26,12 +27,14 @@ public class Migraine extends Game.Default {
 	};
 
 
+	public static Button c;
+
 	@Override
 	public void init() {
 		// create and add background image layer
 		Image bgImage = assets().getImage("images/bg.png");
 		ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-		graphics().rootLayer().add(bgLayer);
+//		graphics().rootLayer().add(bgLayer);
 
 		//for debugging
 		_.setOffset();
@@ -71,8 +74,8 @@ public class Migraine extends Game.Default {
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";
 			colrow[1] = "cell 1 0";
-			colrow[2] = "cell 2 0";
-			colrow[3] = "cell 0 1";
+			colrow[3] = "cell 2 0";
+			colrow[2] = "cell 0 1";
 			colrow[4] = "cell 1 1";
 
 			int[] colours = new int[5];
@@ -158,7 +161,7 @@ public class Migraine extends Game.Default {
 				.add(Style.SHADOW.is(0x20000000)).add(Style.SHADOW_X.is(1f)).add(Style.SHADOW_Y.is(1f))
 				.add(Style.VALIGN.center));
 
-		;
+
 	}
 
 	@Override

@@ -44,6 +44,8 @@ public class MigGroup extends Group {
 
 	public void setCurrentLayout(MigLayout currentLayout) {
 		this.layout = currentLayout;
+		this.root().pack();
+		this.invalidate(); //TODO is this needed?
 	}
 
 	public void makeInvalid()
@@ -65,7 +67,7 @@ public class MigGroup extends Group {
 		getAnimator().add(switchAnim).then().action(new Runnable() {
 			@Override
 			public void run() {
-//				setCurrentLayout(layout);
+				setCurrentLayout(layout);
 //				MigGroup.this.invalidate();
 //				MigGroup.this.preferredSize(0,0);
 //				MigGroup.this.validate();
@@ -166,13 +168,19 @@ public class MigGroup extends Group {
 		 */
 		@Override
 		public Dimension computeSize(float hintX, float hintY) {
-			Dimension results = null;
+			Dimension results = new Dimension(0,0);
+
+			//make the size equal to the MAXIMUM of all the sub layout sizes
+			//see #3P6XG
+
 			for(Layout lay : layouts)
 			{
 				Dimension d = layout.computeSize(MigGroup.this, hintX, hintY);
-				if (lay == layout)
-					results = d;
+				if(d.width > results.width)
+					results.width = d.width ;
 
+				if(d.height > results.height)
+					results.height = d.height ;
 
 			}
 			return results;
@@ -197,19 +205,19 @@ public class MigGroup extends Group {
 //	 * @param height
 //	 * @return
 //	 */
-//	@Override
-//	protected MigGroup setSize (float width, float height) {
-//		boolean changed = _size.width != width || _size.height != height;
-//		_size.setSize(width, height);
-//		// if we have a cached preferred size and this size differs from it, we need to clear our
-//		// layout data as it may contain computations specific to our preferred size
-//
-//		if (_preferredSize != null && !_size.equals(_preferredSize))
-//		{
-//			clearLayoutData();
-//		}
-//
-//		if (changed) invalidate();
-//		return this;
-//	}
+	@Override
+	protected MigGroup setSize (float width, float height) {
+		boolean changed = _size.width != width || _size.height != height;
+		_size.setSize(width, height);
+		// if we have a cached preferred size and this size differs from it, we need to clear our
+		// layout data as it may contain computations specific to our preferred size
+
+		if (_preferredSize != null && !_size.equals(_preferredSize))
+		{
+			clearLayoutData();
+		}
+
+		if (changed) invalidate();
+		return this;
+	}
 }
