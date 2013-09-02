@@ -2,7 +2,6 @@ package coza.mambo.migraine.core;
 
 import static playn.core.PlayN.*;
 
-import org.apache.commons.lang.builder.ReflectionToStringBuilder;
 import playn.core.*;
 import playn.core.util.Clock;
 import react.UnitSlot;
@@ -27,7 +26,7 @@ public class Migraine extends Game.Default {
 	};
 
 
-	public static Button c;
+	public static Button focus;
 
 	@Override
 	public void init() {
@@ -37,7 +36,7 @@ public class Migraine extends Game.Default {
 //		graphics().rootLayer().add(bgLayer);
 
 		//for debugging
-		_.setOffset();
+		_.initialize();
 
 
 		GroupLayer layer = graphics().createGroupLayer();
@@ -70,6 +69,7 @@ public class Migraine extends Game.Default {
 			buttons[2] = new Button("C");
 			buttons[3] = new Button("D");
 			buttons[4] = new Button("E");
+			focus = buttons[0];
 
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";
@@ -159,7 +159,8 @@ public class Migraine extends Game.Default {
 				.add(Style.FONT.is(PlayN.graphics().createFont("Aharoni", Font.Style.PLAIN, 75)))
 				.add(Style.TEXT_EFFECT.shadow)
 				.add(Style.SHADOW.is(0x20000000)).add(Style.SHADOW_X.is(1f)).add(Style.SHADOW_Y.is(1f))
-				.add(Style.VALIGN.center));
+				.add(Style.VALIGN.center)
+				.add(Button.DEBOUNCE_DELAY.is(200)));
 
 
 	}
