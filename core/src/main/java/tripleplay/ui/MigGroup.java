@@ -3,6 +3,7 @@ package tripleplay.ui;
 import pythagoras.f.Dimension;
 import pythagoras.f.Point;
 import pythagoras.f.Vector;
+import tripleplay.anim.AnimBuilder;
 import tripleplay.anim.Animation;
 import tripleplay.anim.Animator;
 
@@ -68,7 +69,7 @@ public class MigGroup extends Group {
 		return this.root().iface().animator();
 	}
 
-	public void animateToNewLayout(final MigLayout layout) {
+	public void animateToNewLayout(final MigLayout layout, Button button) {
 		MigLayout oldLayout = getCurrentLayout();
 		setCurrentLayout(layout);
 
@@ -79,11 +80,11 @@ public class MigGroup extends Group {
 			@Override
 			public void run() {
 				setCurrentLayout(layout);
-//				MigGroup.this.invalidate();
-//				MigGroup.this.preferredSize(0,0);
-//				MigGroup.this.validate();
 			}
 		});
+
+		getAnimator().tweenRotation(button.layer).from(0).to((float) Math.PI*2).in(200);
+
 		//moving the layout back
 		setCurrentLayout(oldLayout);
 
@@ -94,7 +95,7 @@ public class MigGroup extends Group {
 		makeChildrenInvalid();
 	}
 
-	private void makeChildrenInvalid() {
+	public void makeChildrenInvalid() {
 		for (Element<?> child : _children)
 		{
 			child.invalidate();

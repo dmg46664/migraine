@@ -4,6 +4,7 @@ import static playn.core.PlayN.*;
 
 import playn.core.*;
 import playn.core.util.Clock;
+import pythagoras.f.Dimension;
 import react.UnitSlot;
 import tripleplay.ui.*;
 import tripleplay.ui.layout.AxisLayout;
@@ -57,8 +58,8 @@ public class Migraine extends Game.Default {
 
 		if (route == Route.MIGRAINE)
 		{
-			final MigLayout layout = new MigLayout("", "[]40[]40[]");
-			final MigLayout layout2 = new MigLayout("", "[]200[]200[]", "[]200[]");
+			final MigLayout layout = new MigLayout("", "50[]40[]40[]", "50[][]");
+			final MigLayout layout2 = new MigLayout("", "50[]200[]200[]", "50[]200[]");
 			final MigGroup migGroup = new MigGroup(layout);
 			root.add(migGroup);
 			final String e = "";
@@ -96,19 +97,16 @@ public class Migraine extends Game.Default {
 				@Override
 				public void onEmit() {
 					if (migGroup.getCurrentLayout() == layout)
-						migGroup.animateToNewLayout(layout2);
+						migGroup.animateToNewLayout(layout2, buttons[id]);
 					else
-						migGroup.animateToNewLayout(layout);
+						migGroup.animateToNewLayout(layout, buttons[id]);
 
 //					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
 
-					root.pack();
-					migGroup.makeInvalid();
+//
 				}
 			};
 
-//			Styles styles4button = Button
-//			new Button()
 
 			for(int i = 0 ; i < 5 ; i++)
 			{
@@ -117,7 +115,19 @@ public class Migraine extends Game.Default {
 
 				buttons[i].clicked().connect(new ButtonUnitSlot(i)) ;
 				setStyle(buttons[i], colours[i]);
+				final Button button = buttons[i];
+				button.setConstraint(new Layout.Constraint(){
+
+					@Override
+					public void adjustPreferredSize(Dimension psize, float hintX, float hintY) {
+						super.adjustPreferredSize(psize, hintX, hintY);
+						//needed to spin the button around the origin.
+						//but know that this affects it's positioning.
+						button.layer.setOrigin(psize.width()/2, psize.height()/2);
+					}
+				});
 			}
+			migGroup.makeChildrenInvalid();
 
 			migGroup.addLayout(layout2);
 
