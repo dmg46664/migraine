@@ -38,8 +38,15 @@ public class _ {
 			map.put(place, ++passcount);
 		}
 
-		return _.t(1) +place+" ["+thisObj.getClass()+"] Pass count: "+ passcount +"  " +
-				"  ";
+		return padLeft(place, PAD_COUNT)+_.t(1)+
+				className+"."+trace.getMethodName()+"() ["+thisObj.getClass()+"] Pass count: "+ passcount +" "
+			+message;
+	}
+
+	public static final int PAD_COUNT = 80;
+
+	public static String padLeft(String s, int n) {
+		return String.format("%1$" + n + "s", s);
 	}
 
 	static void initialize()
@@ -53,7 +60,7 @@ public class _ {
 	/** for tabbing out the stacktrace */
 	static String t()
 	{
-		return t(0);
+		return padLeft("", PAD_COUNT)+t(0);
 	}
 
 	static String t(int offset2)

@@ -71,7 +71,8 @@ public class MigGroup extends Group {
 	public void animateToNewLayout(final MigLayout layout) {
 		MigLayout oldLayout = getCurrentLayout();
 		setCurrentLayout(layout);
-		this.preferredSize(0,0);
+
+		this.preferredSize(0,0);//same as root.pack
 		this.validate();
 		SwitchAnim switchAnim = new SwitchAnim(oldLayout, layout);
 		getAnimator().add(switchAnim).then().action(new Runnable() {
@@ -85,8 +86,23 @@ public class MigGroup extends Group {
 		});
 		//moving the layout back
 		setCurrentLayout(oldLayout);
-		this.preferredSize(0,0);
+
+		this.preferredSize(0,0); //same as root.pack
 		this.validate();
+
+		//need to invalidate the original button AGAIN! because while
+		makeChildrenInvalid();
+	}
+
+	private void makeChildrenInvalid() {
+		for (Element<?> child : _children)
+		{
+			child.invalidate();
+			if(child instanceof MigGroup)
+			{
+				((MigGroup)child).makeChildrenInvalid();
+			}
+		}
 	}
 
 	class SwitchAnim extends Animation
