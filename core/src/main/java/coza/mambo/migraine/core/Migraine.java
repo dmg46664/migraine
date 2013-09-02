@@ -27,7 +27,6 @@ public class Migraine extends Game.Default {
 	};
 
 
-	public static Button focus;
 
 	@Override
 	public void init() {
@@ -70,7 +69,6 @@ public class Migraine extends Game.Default {
 			buttons[2] = new Button("C");
 			buttons[3] = new Button("D");
 			buttons[4] = new Button("E");
-			focus = buttons[0];
 
 			String colrow[] = new String[5];
 			colrow[0] = "cell 0 0";
