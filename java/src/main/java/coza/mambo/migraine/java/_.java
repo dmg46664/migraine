@@ -1,4 +1,4 @@
-package coza.mambo.migraine.core;
+package coza.mambo.migraine.java;
 
 import java.util.HashMap;
 import java.util.Map;

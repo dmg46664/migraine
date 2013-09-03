@@ -35,10 +35,6 @@ public class Migraine extends Game.Default {
 		ImageLayer bgLayer = graphics().createImageLayer(bgImage);
 		graphics().rootLayer().add(bgLayer);
 
-		//for debugging
-		_.initialize();
-
-
 		GroupLayer layer = graphics().createGroupLayer();
 		iface = new Interface(); //used to take in delegate as argument
 		Stylesheet sheet = SimpleStyles.newSheet();

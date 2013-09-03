@@ -24,7 +24,7 @@
             <groupId>com.threerings</groupId>
             <artifactId>tripleplay</artifactId>
             <version>${tripleplay.version}</version>
-            <classifier>sources</classifier>
+            <!--<classifier>sources</classifier>-->
         </dependency>
 
   </dependencies>
