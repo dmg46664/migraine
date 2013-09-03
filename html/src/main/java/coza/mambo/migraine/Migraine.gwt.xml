@@ -1,5 +1,6 @@
 <module rename-to='migraine'>
   <inherits name='playn.PlayN'/>
+    <inherits name="tripleplay.TriplePlay"/>
   <inherits name='MigraineAssets'/>
 
   <source path='core'/>

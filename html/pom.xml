@@ -86,8 +86,11 @@
   <build>
     <plugins>
       <plugin>
-        <groupId>org.codehaus.mojo</groupId>
-        <artifactId>gwt-maven-plugin</artifactId>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>gwt-maven-plugin</artifactId>
+          <configuration>
+              <disableClassMetadata>false</disableClassMetadata>
+          </configuration>
         <executions>
           <execution>
             <phase>prepare-package</phase>

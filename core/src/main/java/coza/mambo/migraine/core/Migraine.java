@@ -33,7 +33,7 @@ public class Migraine extends Game.Default {
 		// create and add background image layer
 		Image bgImage = assets().getImage("images/bg.png");
 		ImageLayer bgLayer = graphics().createImageLayer(bgImage);
-//		graphics().rootLayer().add(bgLayer);
+		graphics().rootLayer().add(bgLayer);
 
 		//for debugging
 		_.initialize();
@@ -152,7 +152,6 @@ public class Migraine extends Game.Default {
 		}
 
 		PlayN.graphics().rootLayer().add(layer);
-//		root.pack(400, 100) ;
 		root.pack();
 	}
 
