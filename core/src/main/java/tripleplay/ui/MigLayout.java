@@ -46,7 +46,7 @@ import java.util.*;
  * <p>
  * Read the documentation that came with this layout manager for information on usage.
  */
-public final class MigLayout extends Layout implements Externalizable
+public final class MigLayout extends Layout
 {
 	// ******** Instance part ********
 
@@ -80,7 +80,8 @@ public final class MigLayout extends Layout implements Externalizable
 
 	public CopyCache getCopyCache(Element c) {
 		CopyCache cc = copyCacheMap.get(c);
-		if(c != null && c._preferredSize != null)
+		if(c != null && c._preferredSize != null
+				&& c._preferredSize != cc._preferredSize)
 			cc._preferredSize = c._preferredSize;
 		return cc;
 	}
@@ -107,10 +108,7 @@ public final class MigLayout extends Layout implements Externalizable
 		public int x;
 		public int y;
 
-		public void update(Element c){
-			if(c != null && c._preferredSize != null)
-				this._preferredSize = c._preferredSize;
-		}
+
 
 		public void setLocation(int x, int y) {
 			this.x = x;
@@ -140,6 +138,12 @@ public final class MigLayout extends Layout implements Externalizable
 	 */
 	@Override
 	public Dimension computeSize(Elements<?> elems, float hintX, float hintY) {
+
+		//make sure computsize has been called on all sub elements
+		for(Element element : elems)
+		{
+			element.preferredSize(0,0);
+		}
 
 		return getSizeImpl(elems, LayoutUtil.PREF);
 	}
@@ -846,21 +850,22 @@ public final class MigLayout extends Layout implements Externalizable
 	// Persistence Delegate and Serializable combined.
 	// ************************************************
 
-	private Object readResolve() throws ObjectStreamException
-	{
-		return LayoutUtil.getSerializedObject(this);
-	}
-
-	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
-	{
-		LayoutUtil.setSerializedObject(this, LayoutUtil.readAsXML(in));
-	}
-
-	public void writeExternal(ObjectOutput out) throws IOException
-	{
-		if (getClass() == MigLayout.class)
-			LayoutUtil.writeAsXML(out, this);
-	}
+	//TODO recondsider persistence stuff (implements Externalizable)
+//	private Object readResolve() throws ObjectStreamException
+//	{
+//		return LayoutUtil.getSerializedObject(this);
+//	}
+//
+//	public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException
+//	{
+//		LayoutUtil.setSerializedObject(this, LayoutUtil.readAsXML(in));
+//	}
+//
+//	public void writeExternal(ObjectOutput out) throws IOException
+//	{
+//		if (this.getClass() == MigLayout.class)
+//			LayoutUtil.writeAsXML(out, this);
+//	}
 //
 //	private class MyDebugRepaintListener implements Runnable
 //	{
@@ -877,4 +882,5 @@ public final class MigLayout extends Layout implements Externalizable
 //			debugTimer = null;
 //		}
 //	}
+
 }
