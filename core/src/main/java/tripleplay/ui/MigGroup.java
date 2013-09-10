@@ -69,7 +69,7 @@ public class MigGroup extends Group {
 		return this.root().iface().animator();
 	}
 
-	public void animateToNewLayout(final MigLayout layout, Button button) {
+	public void animateToNewLayout(final MigLayout layout) {
 		MigLayout oldLayout = getCurrentLayout();
 		setCurrentLayout(layout);
 
@@ -82,8 +82,6 @@ public class MigGroup extends Group {
 				setCurrentLayout(layout);
 			}
 		});
-
-		getAnimator().tweenRotation(button.layer).from(0).to((float) Math.PI*2).in(200);
 
 		//moving the layout back
 		setCurrentLayout(oldLayout);
@@ -121,7 +119,11 @@ public class MigGroup extends Group {
 			{
 				MigLayout.CopyCache startCC = startMap.get(e);
 				MigLayout.CopyCache destCC = destMap.get(e);
-				Vector vec = new Vector(destCC.x - startCC.x, destCC.y - startCC.y);
+				Vector vec = null ;
+				if (destCC != null)
+					vec = new Vector(destCC.x - startCC.x, destCC.y - startCC.y);
+				else //if the button has been removed from the layout
+					vec = new Vector(-100 - startCC.x, -100 - startCC.y);
 				vecMap.put(e, vec);
 				elPointMap.put(e, new Point(startCC.x, startCC.y));
 			}

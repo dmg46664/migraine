@@ -91,9 +91,11 @@ public class Migraine extends Game.Default {
 				@Override
 				public void onEmit() {
 					if (migGroup.getCurrentLayout() == layout)
-						migGroup.animateToNewLayout(layout2, buttons[id]);
+						migGroup.animateToNewLayout(layout2);
 					else
-						migGroup.animateToNewLayout(layout, buttons[id]);
+						migGroup.animateToNewLayout(layout);
+
+					migGroup.getAnimator().tweenRotation(buttons[id].layer).from(0).to((float) Math.PI*2).in(200);
 
 //					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
 
@@ -153,6 +155,7 @@ public class Migraine extends Game.Default {
 
 	public void setStyle(Button button, int bgColor)
 	{
+
 		int ulColor = 0xFFEEEEEE, brColor = 0xFFAAAAAA;
 		Background butBg = Background.roundRect(bgColor, 5, ulColor, 2).inset(5, 6, 1, 6);
 		Background butSelBg = Background.roundRect(bgColor, 5, brColor, 2).inset(6, 5, 1, 7);
