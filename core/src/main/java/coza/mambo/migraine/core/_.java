@@ -1,4 +1,4 @@
-package coza.mambo.migraine.java;
+package coza.mambo.migraine.core;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,9 +26,6 @@ public class _ {
 		String className = fullClassName.substring(last+1, fullClassName.length()) ;
 		String place = fullClassName+"."+trace.getMethodName()
 				+"("+trace.getFileName()+":"+trace.getLineNumber()+")";
-
-
-
 		int passcount = 1;
 		if (!map.containsKey(place))
 			map.put(place, passcount);
@@ -38,9 +35,17 @@ public class _ {
 			map.put(place, ++passcount);
 		}
 
-		return padLeft(place, PAD_COUNT)+_.t(1)+
-				className+"."+trace.getMethodName()+"() ["+thisObj.getClass()+"] Pass count: "+ passcount +" "
-			+message;
+		switch(setting)
+		{
+			case 0:
+				return padLeft(place, PAD_COUNT)+_.t(1)+
+						className+"."+trace.getMethodName()+"() ["+thisObj.getClass()+"] Pass count: "+ passcount +" "
+						+message;
+			case 1:
+				return 	className+"."+trace.getMethodName()+"()  Pass count: "+ passcount +" "+message;
+			default:
+				return null;
+		}
 	}
 
 	public static final int PAD_COUNT = 80;

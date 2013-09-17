@@ -1,5 +1,6 @@
 package coza.mambo.migraine.java;
 
+import coza.mambo.migraine.core._;
 import playn.core.PlayN;
 import playn.java.JavaPlatform;
 
