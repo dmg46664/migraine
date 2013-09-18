@@ -137,7 +137,7 @@ public final class MigLayout extends Layout
 	 * @return
 	 */
 	@Override
-	public Dimension computeSize(Elements<?> elems, float hintX, float hintY) {
+	public Dimension computeSize(Container<?> elems, float hintX, float hintY) {
 
 		//make sure computsize has been called on all sub elements
 		for(Element element : elems)
@@ -145,7 +145,7 @@ public final class MigLayout extends Layout
 			element.preferredSize(0,0);
 		}
 
-		return getSizeImpl(elems, LayoutUtil.PREF);
+		return getSizeImpl((Elements)elems, LayoutUtil.PREF);
 	}
 
 	/**
@@ -157,8 +157,8 @@ public final class MigLayout extends Layout
 	 * @param height
 	 */
 	@Override
-	public void layout(Elements<?> elems, float left, float top, float width, float height) {
-		this.layoutContainer(elems);
+	public void layout(Container<?> elems, float left, float top, float width, float height) {
+		this.layoutContainer((Elements)elems);
 	}
 
 	/** Constructor.
