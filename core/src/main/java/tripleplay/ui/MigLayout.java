@@ -158,6 +158,8 @@ public final class MigLayout extends Layout
 	 */
 	@Override
 	public void layout(Container<?> elems, float left, float top, float width, float height) {
+		// Needed to have the element compute it's LayoutData.
+		elems.computeSize(width, height);
 		this.layoutContainer((Elements)elems);
 	}
 

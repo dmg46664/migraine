@@ -189,7 +189,6 @@ public final class PlatformDefaults
 				break;
 
 			case MAC_OSX:
-				throw new UnsupportedOperationException("blah blah blah");
 //				UIManager.put("Button." + VISUAL_PADDING_PROPERTY, new int[] {3, 6, 5, 6});
 //				UIManager.put("Button.icon." + VISUAL_PADDING_PROPERTY, new int[] {3, 2, 3, 2});
 //				UIManager.put("Button.square." + VISUAL_PADDING_PROPERTY, new int[] {4, 4, 4, 4});
@@ -225,18 +224,18 @@ public final class PlatformDefaults
 //				UIManager.put("CheckBox." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
 //				UIManager.put("CheckBox.small." + VISUAL_PADDING_PROPERTY, new int[] {5, 7, 4, 5});
 //				UIManager.put("CheckBox.mini." + VISUAL_PADDING_PROPERTY, new int[] {6, 7, 3, 5});
-//
-//				setRelatedGap(LPX7, LPY7);
-//				setUnrelatedGap(LPX11, LPY11);
-//				setParagraphGap(LPX20, LPY20);
-//				setIndentGap(LPX11, LPY11);
-//				setGridCellGap(LPX7, LPY7);
-//
-//				setMinimumButtonWidth(new UnitValue(70, UnitValue.LPX, null));
-//				setButtonOrder("L_HE+U+NYBXCOA_R");
-//				setDialogInsets(LPY14, LPX20, LPY20, LPX20);
-//				setPanelInsets(LPY16, LPX16, LPY16, LPX16);
-//				break;
+
+				setRelatedGap(LPX7, LPY7);
+				setUnrelatedGap(LPX11, LPY11);
+				setParagraphGap(LPX20, LPY20);
+				setIndentGap(LPX11, LPY11);
+				setGridCellGap(LPX7, LPY7);
+
+				setMinimumButtonWidth(new UnitValue(70, UnitValue.LPX, null));
+				setButtonOrder("L_HE+U+NYBXCOA_R");
+				setDialogInsets(LPY14, LPX20, LPY20, LPX20);
+				setPanelInsets(LPY16, LPX16, LPY16, LPX16);
+				break;
 
 			case GNOME:
 				setRelatedGap(LPX6, LPY6);                    // GNOME HIG 8.2.3
