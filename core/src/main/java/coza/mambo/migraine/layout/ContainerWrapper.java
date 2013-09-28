@@ -53,7 +53,7 @@ public interface ContainerWrapper extends ComponentWrapper
 	 * @return The layout handler instance. Never <code>null</code>.
 	 */
 	public abstract Object getLayout();
-
+	
 	/** Returns if this container is using left-to-right component ordering.
 	 * @return If this container is using left-to-right component ordering.
 	 */

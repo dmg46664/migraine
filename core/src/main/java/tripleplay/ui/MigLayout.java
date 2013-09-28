@@ -87,7 +87,7 @@ public final class MigLayout extends Layout
 	}
 
 	public ComponentWrapper createNewComponentWrapper(Element<?> element) {
-		TPComponentWrapper component = new TPComponentWrapper(element, this);
+		TPComponentWrapper component = new TPComponentWrapper(element);
 		if(!this.copyCacheMap.containsKey(element))
 			this.copyCacheMap.put(element, new CopyCache());
 		return component;
