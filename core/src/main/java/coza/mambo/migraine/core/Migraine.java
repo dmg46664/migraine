@@ -4,29 +4,23 @@ import static playn.core.PlayN.*;
 
 import playn.core.*;
 import playn.core.util.Clock;
-import pythagoras.f.Dimension;
-import react.UnitSlot;
 import tripleplay.ui.*;
 import tripleplay.ui.layout.AxisLayout;
 
 public class Migraine extends Game.Default {
 
 	private Interface iface;
-
 	private final static int UPDATE_RATE = 33;
 	private final Clock.Source clock = new Clock.Source(UPDATE_RATE);
 	private Route route;
+	
+	enum Route {
+		TRIPLEPLAY, MIGLAYOUT;
+	};
 
 	public Migraine() {
 		super(UPDATE_RATE); // call update every 33ms (30 times per second)
 	}
-
-
-	enum Route {
-		TRIPLEPLAY, MIGLAYOUT, MIGRAINE
-	};
-
-
 
 	@Override
 	public void init() {
@@ -42,93 +36,10 @@ public class Migraine extends Game.Default {
 		layer.add(root.layer);
 		root.addStyles(Style.HALIGN.left);
 
+		// Change this enum to see the Miglayout vs TriplePlay examples.
+		route = Route.MIGLAYOUT;
 
-
-		/*===================================*/
-		//change this enum to see the Miglayout vs migraine examples.
-		/*===================================*/
-		route = Route.MIGRAINE;
-
-
-
-		if (route == Route.MIGRAINE)
-		{
-			final MigLayout layout = new MigLayout("", "50[]40[]40[]", "50[][]");
-			final MigLayout layout2 = new MigLayout("", "50[]200[]200[]", "50[]200[]");
-			final MigGroup migGroup = new MigGroup(layout);
-			root.add(migGroup);
-
-			final Button buttons[] = new Button[5];
-			buttons[0] = new Button("A");
-			buttons[1] = new Button("B");
-			buttons[2] = new Button("C");
-			buttons[3] = new Button("D");
-			buttons[4] = new Button("E");
-
-			String colrow[] = new String[5];
-			colrow[0] = "cell 0 0";
-			colrow[1] = "cell 1 0";
-			colrow[2] = "cell 2 0";
-			colrow[3] = "cell 0 1";
-			colrow[4] = "cell 1 1";
-
-			int[] colours = new int[5];
-			colours[0] = Color.rgb(255, 0, 255);
-			colours[1] = Color.rgb(255, 255, 0);
-			colours[2] = Color.rgb(0, 255, 255);
-			colours[3] = Color.rgb(255, 100, 100);
-			colours[4] = Color.rgb(0, 100, 100);
-
-			class ButtonUnitSlot extends UnitSlot
-			{
-				int id ;
-
-				public ButtonUnitSlot(int id)
-				{
-					this.id = id;
-				}
-				@Override
-				public void onEmit() {
-					if (migGroup.getCurrentLayout() == layout)
-						migGroup.animateToNewLayout(layout2);
-					else
-						migGroup.animateToNewLayout(layout);
-
-					migGroup.getAnimator().tweenRotation(buttons[id].layer).from(0).to((float) Math.PI*2).in(200);
-
-//					migGroup.getCurrentLayout().setComponentConstraints(buttons[id], "external");
-
-//
-				}
-			};
-
-
-			for(int i = 0 ; i < 5 ; i++)
-			{
-				migGroup.add(buttons[i], colrow[i]);
-				layout2.addLayoutComponent(buttons[i], colrow[i]);
-
-				buttons[i].clicked().connect(new ButtonUnitSlot(i)) ;
-				setStyle(buttons[i], colours[i]);
-				final Button button = buttons[i];
-				button.setConstraint(new Layout.Constraint(){
-
-					@Override
-					public void adjustPreferredSize(Dimension psize, float hintX, float hintY) {
-						super.adjustPreferredSize(psize, hintX, hintY);
-						//needed to spin the button around the origin.
-						//but know that this affects it's positioning.
-						button.layer.setOrigin(psize.width()/2, psize.height()/2);
-					}
-				});
-			}
-			migGroup.makeChildrenInvalid();
-
-			migGroup.addLayout(layout2);
-
-		}
-		else if(route == Route.MIGLAYOUT)
-		{
+		if (route == Route.MIGLAYOUT) {
 			MigGroup migraineButtons;
 			MigLayout layout = new MigLayout("", "[]40[]40[]");
 			root.add(migraineButtons = new MigGroup(layout));
@@ -138,9 +49,7 @@ public class Migraine extends Game.Default {
 			migraineButtons.add(new Button("C"), "wrap");
 			migraineButtons.add(new Button("DEF"), e);
 			migraineButtons.add(new Button("E"), e);
-		}
-		else //tripleplay
-		{
+		} else /* TriplePlay */ {
 			Group group = new Group(new AxisLayout.Horizontal());
 			root.add(group);
 			group.add(new Button("A"));
@@ -152,9 +61,7 @@ public class Migraine extends Game.Default {
 		root.pack();
 	}
 
-	public void setStyle(Button button, int bgColor)
-	{
-
+	public void setStyle(Button button, int bgColor) {
 		int ulColor = 0xFFEEEEEE, brColor = 0xFFAAAAAA;
 		Background butBg = Background.roundRect(bgColor, 5, ulColor, 2).inset(5, 6, 1, 6);
 		Background butSelBg = Background.roundRect(bgColor, 5, brColor, 2).inset(6, 5, 1, 7);
@@ -166,20 +73,16 @@ public class Migraine extends Game.Default {
 				.add(Style.SHADOW.is(0x20000000)).add(Style.SHADOW_X.is(1f)).add(Style.SHADOW_Y.is(1f))
 				.add(Style.VALIGN.center)
 				.add(Button.DEBOUNCE_DELAY.is(200)));
-
-
 	}
 
 	@Override
 	public void update(int delta) {
 		clock.update(delta);
 		iface.update(delta);
-
 	}
 
 	@Override
 	public void paint(float alpha) {
-		// the background automatically paints itself, so no need to do anything here!
 		clock.paint(alpha);
 		iface.paint(clock);
 	}
