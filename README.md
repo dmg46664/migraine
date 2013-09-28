@@ -10,9 +10,13 @@ If you run in to issues, the best way to debug problems is to get a sample Java 
 
 Pull requests are welcome!
 
+# Demo
+
+Run a Java Swing demo of that uses the layout manager by executing `mvn -Pjava test` from the terminal.
+
 # Usage
 
-To use the library in your TriplePlay enabled project, simply clone the repo and install the migrane-core jar in your local maven repository.
+To use the library in your TriplePlay enabled project, simply clone the repo and install the `migrane-core` jar in your local maven repository.
 
     cd core
     mvn install
