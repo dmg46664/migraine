@@ -57,7 +57,6 @@ public class Migraine extends Game.Default {
 			final MigLayout layout2 = new MigLayout("", "50[]200[]200[]", "50[]200[]");
 			final MigGroup migGroup = new MigGroup(layout);
 			root.add(migGroup);
-			final String e = "";
 
 			final Button buttons[] = new Button[5];
 			buttons[0] = new Button("A");

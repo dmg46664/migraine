@@ -22,7 +22,6 @@ public class _ {
 		StackTraceElement trace = Thread.currentThread().getStackTrace()[2] ;
 		String fullClassName = trace.getClassName();
 		int last = fullClassName.lastIndexOf('.');
-		String packageName = fullClassName.substring(0, last);
 		String className = fullClassName.substring(last+1, fullClassName.length()) ;
 		String place = fullClassName+"."+trace.getMethodName()
 				+"("+trace.getFileName()+":"+trace.getLineNumber()+")";
