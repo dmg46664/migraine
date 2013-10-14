@@ -3,7 +3,7 @@ package tripleplay.ui;
 import pythagoras.f.Dimension;
 
 /**
- * A Group that knows how to use a MigLayout. Can animate between different layouts.
+ * A Group that knows how to use a MigLayout.
  * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public class MigGroup extends Group {
@@ -58,7 +58,7 @@ public class MigGroup extends Group {
 	 * In triple play there is a difference between a particular layout policy
 	 * (Layout) which is a set of constraints... and LayoutData, which is an 
 	 * *instantiation* of that policy. given the context.
-     */
+	 */
 	protected class NewMigLayoutData extends ElementsLayoutData {
 
 		@Override 
