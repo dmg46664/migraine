@@ -74,9 +74,8 @@ public interface ComponentWrapper
 	public static final int TYPE_SCROLL_BAR = 17;
 	public static final int TYPE_SEPARATOR = 18;
 	public static final int TYPE_TABBED_PANE = 19;
-
-	/** Returns the actual object that this wrapper is aggregating. This might be needed for getting
-	 * information about the object that the wrapper interface does not provide.
+	
+	/** Returns the actual object that this wrapper is wrapping.
 	 * <p>
 	 * If this is a container the container should be returned instead.
 	 * @return The actual object that this wrapper is aggregating. Not <code>null</code>.

@@ -1,4 +1,5 @@
 package tripleplay.ui;
+
 /*
  * License (BSD):
  * ==============
@@ -33,96 +34,53 @@ package tripleplay.ui;
  *         Date: 2006-sep-08
  */
 
-
-
 import coza.mambo.migraine.layout.ComponentWrapper;
 import coza.mambo.migraine.layout.ContainerWrapper;
-import playn.core.Color;
-
 
 /**
+ * Wraps a TriplePlay Container so that it can be laid out by a MigLayout.
+ * @author Aidan Nagorcka-Smith (aidanns@gmail.com)
  */
 public final class TPContainerWrapper extends TPComponentWrapper implements ContainerWrapper
 {
-	/** Debug color for cell outline.
+	// The container that is being wrapped.
+	private Container<?> wrappedContainer;
+	
+	/**
+	 * Create a new TPContainerWrapper.
+	 * @param container The Container to be w
 	 */
-	private static final int DB_CELL_OUTLINE = Color.rgb(255, 0, 0);
-	private final MigGroup migGroup;
-
-	public TPContainerWrapper(Elements c)
-	{
-		super(c);
-		this.migGroup = (MigGroup) c ;
+	public TPContainerWrapper(Container<?> container) {
+		super(container);
+		wrappedContainer = container;
 	}
 
 	@Override
-	public ComponentWrapper[] getComponents()
-	{
-		Group c = (Group) getComponent();
-		ComponentWrapper[] cws = new ComponentWrapper[c.childCount()];
-		for (int i = 0; i < cws.length; i++)
-		{
-			cws[i] = this.migGroup.getCurrentLayout().createNewComponentWrapper(c.childAt(i)) ;
+	public ComponentWrapper[] getComponents() {
+		ComponentWrapper[] children = new ComponentWrapper[wrappedContainer.childCount()];
+		for (int i = 0; i < wrappedContainer.childCount(); i++) {
+			children[i] = new TPComponentWrapper(wrappedContainer.childAt(i));
 		}
-		return cws;
+		return children;
 	}
 
 	@Override
-	public int getComponentCount()
-	{
-		return ((Group) getComponent()).childCount();
+	public int getComponentCount() {
+		return wrappedContainer.childCount();
 	}
 
 	@Override
-	public Object getLayout()
-	{
-		return migGroup._layout ;
-//		return ((Group) getComponent()).;
-//		throw new UnsupportedOperationException("tripleplay group doesn't return layout");
+	public boolean isLeftToRight() {
+		return true;
 	}
 
 	@Override
-	public final boolean isLeftToRight()
-	{
-		//TODO look at this
-		return true ;
-//		return ((Group) getComponent()).getComponentOrientation().isLeftToRight();
+	public void paintDebugCell(int x, int y, int width, int height) {
+		// TODO: Support debugging.
 	}
 
 	@Override
-	public final void paintDebugCell(int x, int y, int width, int height)
-	{
-		Group c = (Group) getComponent();
-		if (c.isShowing() == false)
-			return;
-
-//		Graphics2D g = (Graphics2D) c.getGraphics();
-//		if (g == null)
-//			return;
-
-//		g.setStroke(new BasicStroke(1f, BasicStroke.CAP_SQUARE, BasicStroke.JOIN_MITER, 10f, new float[] {2f, 3f}, 0));
-//		g.setPaint(DB_CELL_OUTLINE);
-//		g.drawRect(x, y, width - 1, height - 1);
-
-		throw new UnsupportedOperationException("not implemented yet");
-	}
-
-	@Override
-	public int getComponentType(boolean disregardScrollPane)
-	{
-		return TYPE_CONTAINER;
-	}
-
-	@Override
-	// Removed for 2.3 because the parent.isValid() in MigLayout will catch this instead.
-	public int getLayoutHashCode()
-	{
-		long n = System.nanoTime();
-		int h = super.getLayoutHashCode();
-
-		if (isLeftToRight())
-			h += 416343;
-
-		return 0;
+	public Object getLayout() {
+		return wrappedContainer;
 	}
 }
