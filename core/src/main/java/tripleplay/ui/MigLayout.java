@@ -35,6 +35,7 @@ package tripleplay.ui;
 
 import coza.mambo.migraine.layout.*;
 import pythagoras.f.Dimension;
+import pythagoras.f.Rectangle;
 import tripleplay.ui.util.Insets;
 
 //import javax.swing.*;
@@ -142,7 +143,7 @@ public final class MigLayout extends Layout
 		//make sure computsize has been called on all sub elements
 		for(Element element : elems)
 		{
-			element.preferredSize(0,0);
+			element.preferredSize(hintX,hintY);
 		}
 
 		return getSizeImpl((Elements)elems, LayoutUtil.PREF);
@@ -620,11 +621,13 @@ public final class MigLayout extends Layout
 
 			Insets i = parent._ldata.bg.insets;
 
+			Rectangle rectangle = new Rectangle();
+			parent.bounds(rectangle);
 			int[] b = new int[] {
 					Math.round(i.left()),
 					Math.round(i.top()),
-					Math.round(parent._size.width() - i.left() - i.right()),
-					Math.round(parent._size.height() - i.top() - i.bottom())
+					Math.round(rectangle.width() - i.left() - i.right()),
+					Math.round(rectangle.height() - i.top() - i.bottom())
 			};
 
 			if (grid.layout(b, lc.getAlignX(), lc.getAlignY(), getDebug(), true)) {

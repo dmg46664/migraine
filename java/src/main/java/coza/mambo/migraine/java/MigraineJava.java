@@ -10,7 +10,7 @@ public class MigraineJava {
 
   public static void main(String[] args) {
 	  //for debugging
-	  _.initialize();
+//	  _.initialize();
 
     JavaPlatform.Config config = new JavaPlatform.Config();
     // use config to customize the Java platform, if needed

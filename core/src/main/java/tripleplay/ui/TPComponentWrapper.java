@@ -264,28 +264,28 @@ public class TPComponentWrapper implements ComponentWrapper
 	@Override
 	public final int getMaximumHeight(int sz)
 	{
+		if (!isMaxSet())
+			return Short.MAX_VALUE;
+
 		return this.getPreferredHeight(sz);
-//		if (!isMaxSet(c))
-//			return Short.MAX_VALUE;
-//
-//		return c.getMaximumSize().height;
 	}
 
 	@Override
 	public final int getMaximumWidth(int sz)
 	{
+		if (!isMaxSet())
+			return Short.MAX_VALUE;
+
 		return this.getPreferredWidth(sz);
-//		if (!isMaxSet(c))
-//			return Short.MAX_VALUE;
-//
-//		return c.getMaximumSize().width;
 	}
 
 
-//	private boolean isMaxSet(Component c)
-//	{
-//		return c.isMaximumSizeSet();
-//	}
+	private boolean isMaxSet()
+	{
+		return false ;
+		//TODO, return true if the item really supports a maximum
+		//and cannot be scaled. Maybe some of the text widgets.
+	}
 
 	@Override
 	public final ContainerWrapper getParent()

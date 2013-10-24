@@ -2,6 +2,7 @@ package tripleplay.ui;
 
 import pythagoras.f.Dimension;
 import pythagoras.f.Point;
+import pythagoras.f.Rectangle;
 import pythagoras.f.Vector;
 import tripleplay.anim.AnimBuilder;
 import tripleplay.anim.Animation;
@@ -17,6 +18,9 @@ public class MigGroup extends Group {
 
 	private List<MigLayout> layouts = new ArrayList<MigLayout>();
 	private MigLayout layout ;
+
+	private float hintX;
+	private float hintY;
 
 	public MigGroup(MigLayout layout) {
 		super(layout);
@@ -199,6 +203,11 @@ public class MigGroup extends Group {
 		public Dimension computeSize(float hintX, float hintY) {
 			Dimension results = new Dimension(0,0);
 
+			MigGroup.this._size.setSize(hintX, hintY);
+
+			MigGroup.this.hintX = hintX;
+			MigGroup.this.hintY = hintY;
+
 			//make the size equal to the MAXIMUM of all the sub layout sizes
 			//see #3P6XG
 
@@ -219,6 +228,19 @@ public class MigGroup extends Group {
 //		public void layout (float left, float top, float width, float height) {
 //			layout.layout(MigGroup.this, left, top, width, height);
 //		}
+	}
+
+	/**
+	 * Overridden to accomodate passing hints to MigLayout when prefferedSize is not set.
+	 * */
+	@Override
+	public Rectangle bounds (Rectangle bounds) {
+		bounds.setBounds(x(), y(), _size.width, _size.height);
+
+		if(_preferredSize == null)
+			bounds.setSize(this.hintX, this.hintY);
+
+		return bounds;
 	}
 
 	public MigGroup add(Element child, Object layoutData)
