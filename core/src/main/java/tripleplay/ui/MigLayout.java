@@ -11,6 +11,7 @@ import coza.mambo.migraine.layout.ConstraintParser;
 import coza.mambo.migraine.layout.Grid;
 import coza.mambo.migraine.layout.LC;
 import coza.mambo.migraine.layout.LayoutCallback;
+import coza.mambo.migraine.layout.LayoutUtil;
 import pythagoras.f.Dimension;
 import tripleplay.ui.util.Insets;
 
@@ -157,7 +158,10 @@ public class MigLayout extends Layout {
 
 	@Override
 	public Dimension computeSize(Container<?> elems, float hintX, float hintY) {
-		return new Dimension(0, 0); // This doesn't seem to matter.
+        for(Element<?> element : elems) {
+                element.preferredSize(hintX,hintY);
+        }
+        return getSizeImpl((Elements<?>)elems, LayoutUtil.PREF);
 	}
 
 	@Override
@@ -188,4 +192,17 @@ public class MigLayout extends Layout {
 		// For now, just always re-create the grid.
 		_grid = new Grid(new TPContainerWrapper(elems), _layoutConstraints, _rowConstraints, _columnConstraints, _childElementWrapperConstraintMap, new ArrayList<LayoutCallback>());
 	}
+	
+	// Implementation method that does the job.
+    private Dimension getSizeImpl(Elements<?> parent, int sizeType)
+    {
+            recreateGridIfNeeded((Container<?>) parent);
+
+            Insets i = parent._ldata.bg.insets;
+
+            int w = LayoutUtil.getSizeSafe(_grid != null ? _grid.getWidth() : null, sizeType) + Math.round(i.left() + i.right());
+            int h = LayoutUtil.getSizeSafe(_grid != null ? _grid.getHeight() : null, sizeType) + Math.round(i.top() + i.bottom());
+
+            return new Dimension(w, h);
+    }
 }
